@@ -1,6 +1,6 @@
 lecture = function(appName, appHomePath, resourceURL) {
     'use strict';
-    var project = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
+    var project = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngLoadingSpinner']);
 
     //config
     project.config(['$routeProvider', function($routeProvider) {
@@ -35,7 +35,14 @@ lecture = function(appName, appHomePath, resourceURL) {
             //context name
             $scope.contextName = data.context.name;
             //first category selected by default
-            $scope.selectedCats = [$scope.cats[0]];
+	      // $scope.selectedCats = [$scope.cats[0]];
+	//Adaptation GIP RECIA 
+	//Modification des categories selectionnées pour affichage par defaut 
+		$scope.selectedCats = $scope.cats;
+
+	// Adaptation GIP RECIA 
+	// Recuperation de l'etat de l'authentificattion dans le scope 
+	 	$scope.guestMode = data.guestMode;
             //all sources selected by default
             angular.forEach($scope.cats, function(cat, key) {
                 cat.selectedSrcs = cat.sources;
@@ -55,11 +62,19 @@ lecture = function(appName, appHomePath, resourceURL) {
                             if (src.id === srcID) {
                                 src.isSelected = true;
                                 cat.selectedSrcs = [src];
-                            }
+                            }else {
+				// Patch pour deselectionner une source : utile pour ne pas afficher les sources vides dans la liste des actualités
+				// corrige l'etat de la selection
+				src.isSelected = false; 	
+			}	
                         });
                     }
                     else {
                         cat.selectedSrcs = cat.sources;
+			// Patch pour deselectionner toutes les sources selectionnées corrige l'etat de la selection 
+			 angular.forEach(cat.sources, function(src, key) {
+				src.isSelected = false ;
+			});
                     }
                 }
                 else {
@@ -76,7 +91,73 @@ lecture = function(appName, appHomePath, resourceURL) {
                 }
             });
         };
-
+	//@params : item l'objet item 
+	//@return boolean
+	 $scope.isItemEmpty=function(item) {	
+		// test si l'item est vide (un peu laborieux mais on a pas de standart : c'est different selon la source )
+		if (item === null || item === undefined 
+		|| (item.htmlContent === null && item.mobileHtmlContent === null )
+		|| (item.htmlContent ==undefined && item.mobileHtmlContent === undefined) 
+		|| (item.htmlContent === '\n' && item.mobileHtmlContent === '\n')
+		|| (item.htmlContent === '' && item.mobileHtmlContent === '')){
+		 	return true ;
+		}
+		return false; 
+        };
+	// test si la source(regroupement d'items) est vide
+	// @params : idSrc identifiant de la source
+	//           idCat idebtifiant de la categorie
+	//@return : boolean
+	 $scope.isSourceEmpty = function(idSrc,idCat){
+                var testResult = true;
+                angular.forEach($scope.cats, function(cat, key){
+                        if(cat.id == idCat){
+				
+                                angular.forEach(cat.sources, function(source,key){
+                                        if (source.id === idSrc){
+                                                angular.forEach(source.items, function (item,key){
+						
+                                                        if (!$scope.isItemEmpty(item)){
+                                                                testResult = false;
+                                                        }
+                                                });     
+                                        }
+					 	
+					
+                                });
+                         }
+                });
+                 
+                 return testResult;
+        };
+	// test si la categorie (regrouopement de sources ) est vide 
+	// @param : idCat identifiant de la categorie a tester
+	// @return : boolean 
+	$scope.isCatEmpty = function(idCat){
+                var testResult = true;
+		angular.forEach($scope.cats, function(cat, key){
+			if (cat.id === idCat ) {
+				angular.forEach(cat.sources, function(source,key){
+				if (!$scope.isSourceEmpty(source.id, idCat)) {
+					
+				 	testResult= false;
+				}
+		
+				});
+			} 
+		});	
+		
+	 	 return testResult;
+		
+	};
+	
+	$scope.isSelectedCat=function(cat){
+	
+		return cat.isSelected ;
+	};
+	$scope.isSelectedSrc = function (src){
+		return src.isSelected ; 	
+	}
         // mark as read or unread on source item
         $scope.toggleItemReadState = function(cat, src, item) {
             //call server to store information

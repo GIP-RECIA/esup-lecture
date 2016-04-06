@@ -86,7 +86,7 @@
                                 <h3>{{ source.name }}</h3>
                             </div>
 			    <div ng-if="isSourceEmpty(source.id,cat.id) && (isSelectedSrc(source) || guestMode) " class = "col-lg-12 panel-heading" >
-				<p> Aucune actualité pour le thème {{source.name}}</p>	
+				<p> {{msgs['noNewsForSrc']}} {{source.name}}</p>	
 			   </div> 	
                             <div ng-repeat="item in source.items | modeFilter:selectedMode" class="panel-body">
                                 <div ng-show="!item.read && !guestMode">
@@ -104,7 +104,7 @@
                     </div>
 		<!-- Un message pour dire que la categorie est vide si elle est selectionnée sur l'arbre -->
 		<div ng-if="isCatEmpty(cat.id) && (isSelectedCat(cat) || guestMode ) " class="col-lg-12 panel-heading" >
-			<h4>Aucune acutalité pour la catégorie "{{cat.name}}" </h4>
+			<h4>{{msgs['noNewsForCat']}} "{{cat.name}}" </h4>
 		</div>
                 </div>
             </div>

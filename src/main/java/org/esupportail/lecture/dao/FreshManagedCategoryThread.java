@@ -120,9 +120,22 @@ public class FreshManagedCategoryThread extends Thread {
 				sp.setName(srcProfile.valueOf("@name"));
 				sp.setSourceURL(srcProfile.valueOf("@url"));
 				String srcTtl = srcProfile.valueOf("@ttl");
+				boolean cI = false;
+				if("true".equals(srcProfile.valueOf("@complexItems"))){
+					 cI = true;
+				}
+				
+				sp.setComplexItems(cI);
+				boolean hl = false;
+				if("true".equals(srcProfile.valueOf("@highlight"))){
+					 hl = true;
+				}
+				sp.setHighLight(hl);
 				if (!(srcTtl.equals(""))) {
 					sp.setTtl(Integer.parseInt(srcTtl));
 				}
+				String color = srcProfile.valueOf("@color");
+				sp.setColor(color);
 				//use of caculated sp.getId() as key for orderedSourceIDs
 				orderedSourceIDs.put(sp.getId(), xmlOrder);
 				xmlOrder += 1;

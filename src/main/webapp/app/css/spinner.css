@@ -1,11 +1,7 @@
 .spinner{
-position:relative;
-left:50%;
 overflow:visible;
-top:50%;
-color:blue;
 z-index:4;
-
+vertical-align:middle;
  }
 
 

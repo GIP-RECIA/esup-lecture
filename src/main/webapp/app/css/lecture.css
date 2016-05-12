@@ -1,211 +1,380 @@
+
+.esup-lecture .container-fluid {
+	padding : 0;
+	margin : 0;
+	background-color: #F5F5F5;
+}
+
+.esup-lecture .row:before, .row:after {
+	display: none !important;
+}
+
+.orange {
+	background-color: orange;
+}
+
+.cyan {
+	background-color: cyan;
+}
+
 .esup-lecture {
-    font-family: 'Open Sans','Helvetica Neue','Helvetica','Arial',sans-serif;
-    font-size: 14px;
-    font-weight: 400;
+	font-family: "Roboto Condensed", "serif";
+}
+/* styles for '...' */
+.metaArticle .clampedText {
+	/* hide text if it more than N lines  */
+	overflow: hidden;
+	/* for set '...' in absolute position */
+	position: relative;
+	/* use this value to count block height */
+	line-height: 1.3em;
+	/* max-height = line-height (1.2) * lines max number (3) */
+	max-height: 2.6em;
+	/* fix problem when last visible word doesn't adjoin right side  */
+	text-align: justify;
+	/* place for '...' */
+	margin-right: -1em;
+	padding-right: 1em;
+}
+/* create the ... */
+.metaArticle .clampedText:before {
+	/* points in the end */
+	content: '...';
+	/* absolute position */
+	position: absolute;
+	/* set position to right bottom corner of block */
+	right: 0;
+	bottom: 0;
+}
+/* hide ... if we have text, which is less than or equal to max lines */
+.metaArticle .clampedText:after {
+	/* points in the end */
+	content: '';
+	/* absolute position */
+	position: absolute;
+	/* set position to right bottom corner of text */
+	right: 0;
+	/* set width and height */
+	width: 1em;
+	height: 1em;
+	margin-top: 0.2em;
+	/* bg color = bg color under block */
+	background: white;
 }
 
-.esup-lecture h1 {
-    border-bottom: none!important;
+.pubDate {
+	color: #9E9E9E;
 }
 
-.esup-lecture .menu-group {
-    display: inline-block;
+.hideBody {
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	z-index: 1040;
 }
 
-.esup-lecture .menu-collapse {
-    position: absolute;
-    display: inline-block;
-    max-width: 300px;
-    right: 0;
-    top: 40px;
-    width: 100%;
-    z-index: 2000;
+.noScroll {
+	overflow: hidden;
+}
+
+.esup-lecture .hl>a, .esup-lecture .not-hl>a {
+	color: #616161 !important;
+	font-size: 0.9em;
+}
+
+.esup-lecture .panel {
+	background-color: white;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0
+		rgba(0, 0, 0, 0.19) !important;
+}
+
+.esup-lecture .panel-heading {
+	text-align: right !important;
+	background-color: #FAFAFA !important;
+	border-bottom: 1px;
+	font-weight: bold;
+	height: 3em;
+	/* box-shadow : 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);*/
+	padding: 10px;
+	z-index: 1039;
+}
+
+.esup-lecture .rubrique {
+	margin-right: 0.2em;
+	cursor: pointer;
+}
+.esup-lecture .labelRubrique{
+	margin-top : 0.5em !important;
+	margin-bottom : 0.2em !important;	
+}
+.esup-lecture .labelSpacer{
+	width :23%;
+	
+}
+.esup-lecture hr {
+	display: block;
+	margin: 0;
+	padding-top: 1em;
+	width: 84%;
+	margin-left: 16%;
+	margin-right: 0;
+	border-top: none;
+	border-bottom: 2px solid #eeeeee;
+}
+
+.esup-lecture .col-sm-3 .active>a {
+	background-color: #E0E0E0;
+	padding-right: 0.3em !important;
+	margin-right: 0 !important;
+	width: 100% !important;
+}
+
+.esup-lecture .panel-body h1 {
+	border: none;
+	padding: 1px;
+	margin: 0px;
+	font-size: 0.9em;
+}
+
+.esup-lecture .panel-body h1 a {
+	font-weight: bold;
+	color: black;
+}
+
+.esup-lecture .panel-body p {
+	margin: 0 0 2px;
+	/*line-height:1.5px;*/
+	font-size: 0.8em;
+}
+
+.esup-lecture .panel-body .readArticle img {
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+}
+
+.esup-lecture .readArticle {
+	background-color: rgba(250, 250, 250, 0.9);
+	/*opacity  : 0.2;*/
+}
+
+.esup-lecture .col-sm-3 {
+	padding-top: 10%;
+	padding-right: 0;
+	    width: 20% !important;
+    margin-left: 15%;
+}
+
+.esup-lecture .col-sm-3 .affix {
+	top: 10% !important;
+}
+
+.esup-lecture .col-md-9 .affix {
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+.esup-lecture .col-md-9 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.esup-lecture .col-sm-3 .active .badge {
+	margin-right: 1em;
+}
+
+.esup-lecture .md-dark {
+	margin-bottom: -1em;
+	color: #BDBDBD !important;
+	z-index: 9999;
+	margin-right: 1em;
+}
+.esup-lecture .btn {
+	background-color: #eeeeee !important;
+}
+.esup-lecture .btn .material-icons {
+	font-size : 2em;
+	margin-top : 0;
+	
+}
+
+.esup-lecture .panel {
+	margin-bottom: 5px;
+}
+
+.esup-lecture .row {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.esup-lecture .panel-body{
+	padding : 0;
+}
+.esup-lecture .imageArticle{
+	width: 4em;
+	margin-left: 0.3em;
+	margin-right: 0.3em;
+	
+}
+.esup-lecture .metaArticle {
+	margin-left : 10%;	
+}
+.esup-lecture .col-xs-2, .esup-lecture .col-md-9 {
+	/*margin: 0;*/
+	padding: 0;	
+}
+
+.esup-lecture .select li {
+	padding: 0;
+	border-bottom: 1px solid #eeeeee;
+	font-size : 1.5em;
+	text-align : left;
+	margin : 0;
+	height : 2.5em;
+	vertical-align :middle;
+}
+
+.esup-lecture .col-md-8, .esup-lecture .col-xs-9 {
+	padding: 0;
+	margin :0;
+}
+
+.esup-lecture .col-md-9 {
+	width: 100%;
+}
+
+.esup-lecture .container-fluid {
+	width: 100%;
+}
+
+.esup-lecture .panel-heading {
+	display: none;
+}
+
+.esup-lecture .col-sm-3 {
+	display: none;
+}
+
+.esup-lecture .col-sm-9 {
+	width: 100% !important;
+	display: block;
+	padding: 0 !important;
+}
+
+.esup-lecture .btn .badge, .esup-lecture .select .badge {
+	margin-right: 6em;
+	float: right;
+	vertical-align : middle;
+	margin-top : 0.3em;
+}
+
+.esup-lecture .btn .material-icons, .esup-lecture .select .material-icons
+	{
+	right: 1em;
+	left: auto;
+	position: absolute;
+	top: 0.3em;
+}
+
+.esup-lecture #mobileSelect .affix{
+/*	width: 100% !important;
+	padding: 1em;
+	margin: 0px;
+	font-size: 1.3em;
+	margin-top :2em !important;*/
+	text-align: left;
+}
+
+.esup-lecture .imageArticle img {
+	width : 4em;
+	height: 4em;
+	border-radius : 5em;
+	margin:auto;
+	margin-top : 3em;
+	
+}
+.bs-sidenav .nav>li>a{
+	padding : 1em;
+}
+.pubDate {
+	width: 50%;
+	 margin-top : 0.5em !important;
+        margin-bottom : 0.2em !important;
+
+}
+
+.esup-lecture .btn:hover, .esup-lecture .btn:focus {
+	background-color: rgba(245, 245, 245, 1) !important;
+}
+
+.esup-lecture  .select {
+	width: 100% !important;
+}
+
+@media only screen and (min-width: 768px) {
+    /* For tablets: */
+	.esup-lecture .col-sm-3 {
+        	display: none;
+       }
+	.esup-lecture .col-sm-9 {
+        	width: 100%;
+        	display: block;
+        	padding: 0;
+        }
+	.esup-lecture .imageArticle img {
+ 		width : 10em;
+		height: 10em;
+		border-radius : 10em;
+        }
+	.esup-lecture .imageArticle{
+		width : 11em;	
+		margin-left : 1em !important;
+	}
+         .esup-lecture .col-md-9 {
+                width: 100%;
+        }
+	.esup-lecture .metaArticle {
+		margin-top: 3em !important;
+	}
+
+        .esup-lecture .panel-heading {
+                display: none;
+        }
+
 }
 
 
-.esup-lecture .lec-list-style-none {
-    list-style: none;
-    margin: 0 !important;
+/* desktop */
+@media only screen and ( min-width : 1200px) {
+         .esup-lecture .col-sm-9 {
+                display: none;
+        }
+        .esup-lecture .panel-heading {
+                display: block;
+        }
+        .esup-lecture .col-sm-3 {
+                display: block;
+
+        }
+        
+	.esup-lecture .metaArticle {
+	/*	margin-left : -5em ! important; */
+	}
+        .labelSpacer {
+                width : 19% !important;
+        }
+        .esup-lecture .imageArticle  img {
+                width : 90%;
+                border-radius : 0;
+                height :auto;
+        }
+         .esup-lecture .col-md-9 {
+                width: 50% !important;
+        }
+         .esup-lecture * {
+                box-sizing : border-box !important;
+        }
+
 }
 
-.esup-lecture .margin-left-zero {
-    margin-top: 15px;
-    margin-left: 0px;
-    padding: 0;
-}
-
-.esup-lecture a.lec-btn-link {
-    text-decoration: none;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.esup-lecture a.lec-btn-link:hover {
-    background-color: #eeeeee;
-    cursor: pointer;
-}
-.esup-lecture .menuTitle {
-    float: left;
-    padding-left: 10px;
-}
-
-.esup-lecture .source-title {
-    height: 22px;
-    color: black;
-    text-align: left;
-    letter-spacing: 1px;
-    text-align: left;
-    text-indent: 5px;
-    font-weight: lighter;
-    padding-left: 10px;
-    margin-bottom: 10px;
-    padding-top: 5px;
-    background-color: #ddd;
-}
-
-.esup-lecture div.toggleButton {
-    display: inline;
-    float: left;
-    margin: 2px 0px 18px 5px;
-    padding: 0px 10px 10px 10px;
-    width: 16px;
-    height: 16px;
-}
-
-.esup-lecture div.unreadArticle {
-    background-color: transparent;
-    line-height: 17px;
-    margin: 2px 0px 10px 35px;
-    border-bottom: dotted thin;
-    font-size: 95%;
-    padding: 2px 2px 15px;
-    letter-spacing: 0.4px;
-}
-
-.esup-lecture div.readArticle {
-    min-height : 1px; /*for IE 7 and opacity ! IE 6 don't work !*/
-    opacity: 0.30;
-    margin: 2px 0px 15px 35px;
-    border-bottom: dotted thin;
-    font-size: 70%;
-    padding: 2px 2px 15px;
-}
-
-.esup-lecture h1,h2,h3 {
-    margin: 10px;
-}
-
-.esup-lecture .menuButton {
-    margin-top: 5px;
-}
-
-.esup-lecture a.link {
-    cursor: pointer;
-    text-decoration: none!important;
-}
-
-.esup-lecture a.link.text {
-    color: #555;
-}
-
-.esup-lecture .nav-pills > li > span,
-.esup-lecture .nav-pills > li.disabled > span,
-.esup-lecture .nav-pills > li.disabled > span {
-    border: 1px solid #e5e5e5;
-    background-color: #ffffff;
-}
-
-.esup-lecture .nav-pills > li > span {
-    display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.esup-lecture .nav-pills [class^="icon-"],
-.esup-lecture .nav-pills [class*=" icon-"],
-.esup-lecture .nav-pills .icon-large[class^="icon-"],
-.esup-lecture .nav-pills .icon-large[class*=" icon-"] {
-    line-height: inherit !important;
-}
-
-.esup-lecture .cat-panel {
-    margin-left: 0;
-    margin-right: 0;
-    background-color: #fff;
-    border: 1px #ddd;
-    border-radius: 4px 4px 0 0;
-    box-shadow: none;
-}
-
-.portlet-container.esup-lecture .btn.forced,
-.portlet-container.esup-lecture .link.forced {
-    cursor: not-allowed!important;
-}
-
-.portlet-container.esup-lecture .hidden-xs,
-.portlet-container.esup-lecture .hidden-sm {
-    display: inline-block !important;
-}
-
-.portlet-container.esup-lecture.sm .visible-xs.visible-sm,
-.portlet-container.esup-lecture.xs .visible-sm.visible-xs{
-    display: inline-block !important;
-}
-
-@media (max-width: 767px) {
-    .esup-lecture .menu-btn .hidden-xs {
-        display: none!important;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-    .esup-lecture .menu-btn.hidden-xs,
-    .esup-lecture .menu-btn.hidden-sm {
-        display: none !important;
-    }
-}
-
-/* ////// Multilevel dropdown */
-.esup-lecture .dropdown-submenu {
-    position:relative;
-}
-
-.esup-lecture .dropdown-submenu > .dropdown-menu {
-    top:0;
-    left:100%;
-    margin-top:-6px;
-    margin-left:-1px;
-    border-radius:6px  6px 6px 6px;
-    -webkit-border-radius:6px 6px 6px 6px;
-    -moz-border-radius:6px  6px 6px 6px;
-}
-
-.esup-lecture .dropdown-submenu:hover > .dropdown-menu {
-    display:block;
-}
-
-.esup-lecture .dropdown-submenu > a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #cccccc;
-    margin-top: 5px;
-    margin-right: -10px;
-}
-
-.portlet-container.esup-lecture .panel > .list-group .list-group-item {
-    border-width: 0 0 1px 0;
-}
-
-.esup-lecture .panel-body .lecture-link a {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: bottom;
-}

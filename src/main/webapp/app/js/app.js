@@ -81,11 +81,6 @@ lecture = function(appName, appHomePath, resourceURL) {
                         $scope.allcats.push(src);
                 });
             });
-		if($scope.gererPlusieursCat){
-                	$scope.mySource = $scope.allcats[0];
-		}else{
-			$scope.mysource = $scope.cats[0].sources[0]
-		}
 
             //tree visible state
             treeVisibleState = data.context.treeVisibleState;

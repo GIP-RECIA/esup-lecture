@@ -13,5 +13,6 @@
     <js>app/js/spin.min.js</js>
     <js>app/js/angular-spinner/angular-spinner.min.js</js>
     <js>app/js/angular-spinner/angular-loading-spinner.js</js>
-	
+    <js>app/js/angular-strap/dist/angular-strap.min.js</js>
+    <js>app/js/angular-strap/dist/angular-strap.tpl.min.js</js>	
 </resources>

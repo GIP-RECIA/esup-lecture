@@ -1,6 +1,6 @@
 lecture = function(appName, appHomePath, resourceURL) {
     'use strict';
-    var project = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngLoadingSpinner']);
+    var project = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngLoadingSpinner','mgcrea.ngStrap']);
 
     //config
     project.config(['$routeProvider', function($routeProvider) {

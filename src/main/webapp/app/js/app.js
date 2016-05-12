@@ -47,6 +47,46 @@ lecture = function(appName, appHomePath, resourceURL) {
             angular.forEach($scope.cats, function(cat, key) {
                 cat.selectedSrcs = cat.sources;
             });
+		
+
+		  $scope.gererPlusieursCat = false;
+          if($scope.cats.length > 1){
+                        $scope.gererPlusieursCat = true;
+                }
+            $scope.allcats = new Array();
+            angular.forEach($scope.cats, function(cat, key) {
+                cat.selectedSrcs = cat.sources;
+                var valIdCat = cat.id;
+                cat.idHtml = valIdCat.split(":").join("");
+                angular.forEach(cat.sources, function(src, key){
+                        var val = src.id;
+                        src.idHtml  =  val.split(":").join("");
+                //      src.offsetY = $scope.elmYPosition(src.idHtml);
+                //      $scope.allOffSets[src.offsetY]=src;
+                          var colorSrc = src.color;
+                          var nameSrc = src.name;
+                          var hlSrc = src.highlight;
+                          var rubId = src.idHtml;
+                            angular.forEach(src.items, function (item,key){
+                                item.rubriques = new Array();
+                                var rubrique = new Object()
+                                rubrique.color = colorSrc;
+                                rubrique.name = nameSrc;
+                                rubrique.idHtml = rubId;
+                                item.rubriques.push(rubrique);
+                                
+                                           });
+
+                        src.selectDesc = src.name + "<span ng-class=\"couleurRubrique("+src.color+")\" class=\"badge\" style=\"background-color:"+src.color+"\" >"+src.unreadItemsNumber+"</span>";
+                        $scope.allcats.push(src);
+                });
+            });
+		if($scope.gererPlusieursCat){
+                	$scope.mySource = $scope.allcats[0];
+		}else{
+			$scope.mysource = $scope.cats[0].sources[0]
+		}
+
             //tree visible state
             treeVisibleState = data.context.treeVisibleState;
         });

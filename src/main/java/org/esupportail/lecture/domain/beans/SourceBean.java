@@ -13,6 +13,7 @@ import org.esupportail.lecture.domain.model.CustomManagedSource;
 import org.esupportail.lecture.domain.model.CustomSource;
 import org.esupportail.lecture.domain.model.ElementProfile;
 import org.esupportail.lecture.domain.model.ItemDisplayMode;
+import org.esupportail.lecture.domain.model.ManagedSourceProfile;
 import org.esupportail.lecture.domain.model.SourceProfile;
 import org.esupportail.lecture.exceptions.domain.DomainServiceException;
 import org.esupportail.lecture.exceptions.domain.ElementNotFoundException;
@@ -52,6 +53,8 @@ public class SourceBean {
 	 * the item display mode of the source.
 	 */
 	private ItemDisplayMode itemDisplayMode = ItemDisplayMode.ALL;
+	private String color;
+	private boolean highlight;
 
 	/*
 	 *************************** INIT ************************************** */	
@@ -86,6 +89,11 @@ public class SourceBean {
 		this.name = profile.getName();
 		this.id = profile.getId();
 		this.itemDisplayMode = customSource.getItemDisplayMode();
+		if(profile instanceof ManagedSourceProfile){
+			ManagedSourceProfile msp = (ManagedSourceProfile)profile;
+			this.setColor(msp.getColor());
+			this.setHighlight(msp.getHighLight());
+		}
 	}
 
 	/**

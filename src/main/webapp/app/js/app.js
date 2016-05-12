@@ -81,10 +81,57 @@ lecture = function(appName, appHomePath, resourceURL) {
                         $scope.allcats.push(src);
                 });
             });
-
+		 $scope.mySource = $scope.allcats[0];
             //tree visible state
             treeVisibleState = data.context.treeVisibleState;
         });
+	
+	$scope.sourceChanged = function(value){
+                $scope.doScrollTo(value);
+        }
+        $scope.selectFocused = function(value){
+                 var body = angular.element( document.querySelector('body'));
+                 body.append("<div class=\"hideBody\"></div>");
+                 body.addClass("noScroll");
+
+        }
+      	$scope.selectBlured = function(value){
+                 var bodyHider = angular.element( document.querySelector('.hideBody'));
+                 bodyHider.removeClass('hideBody');
+                 var body = angular.element( document.querySelector('body'));
+                 body.removeClass("noScroll");
+        }
+	 var lastScrollTop = 0;
+        angular.element($(window)).bind("scroll", function() {
+                var isElementVisible = angular.element(document.querySelector("#mobileSelect")).is(':visible');
+                if(isElementVisible == true){
+                //      var st = $(this).scrollTop();
+                        var st = $scope.currentYPosition();
+                        $scope.allcats.forEach(function(src){
+                                var pos = $scope.elmYPosition(src.idHtml);
+                        if (st > lastScrollTop && pos>0 && st >= pos) {
+                                $scope.mySource = src;
+                                $scope.$apply();
+                 } else if(st<lastScrollTop && pos>0 && src != $scope.mySource ){
+                                var trgSrc = $scope.getMinPos(st, src);
+                        if(trgSrc != undefined && trgSrc != null){
+                                 $scope.mySource = trgSrc;
+                                $scope.$apply();
+                                }
+                        }
+
+                 });
+                lastScrollTop = st;
+                }
+          });
+        $scope.getMinPos=function(curPos,src){
+                var pos = $scope.elmYPosition(src.idHtml);
+                var posMysource = $scope.elmYPosition($scope.mySource.idHtml);
+                if(curPos<=pos && pos<=posMysource){
+                        return src;
+                }
+                return null;
+        }
 
         //select a category and eventually a source to restrict displayed content
         $scope.select = function(catID, srcID) {
@@ -251,6 +298,67 @@ lecture = function(appName, appHomePath, resourceURL) {
         };
 
     });
+	//Realiser le scroll fonction appellée au click   
+         $scope.doScrollTo = function(eID) {
+        // Position courrante
+
+        var startY = $scope.currentYPosition();
+        // Position de l'element cible
+        var stopY = $scope.elmYPosition(eID);
+        // Distance entre les elements
+        var distance = stopY > startY ? stopY - startY : startY - stopY;
+        // Si l'element est visible 
+        if (distance < 100) {
+            scrollTo(0, stopY); return;
+        }
+        // Vitesse de scroll
+        var speed = Math.round(distance / 100);
+        // limitation de la vitesse
+        if (speed >= 20) speed = 20;
+        var step = Math.round(distance / 25);
+        var leapY = stopY > startY ? startY + step : startY - step;
+        var timer = 0;
+        // Si scroll vers le bas
+        if (stopY > startY) {
+            for ( var i=startY; i<stopY; i+=step ) {
+                setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+                leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+            } return;
+        }
+        for ( var i=startY; i>stopY; i-=step ) {
+            setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+            leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+        }
+ };
+        $scope.elmYPosition= function(eID) {
+            var elm = document.getElementById(eID);
+        if(elm != null && elm != undefined){
+            var y = elm.offsetTop;
+            var node = elm;
+            while (node.offsetParent && node.offsetParent != document.body) {
+                node = node.offsetParent;
+                y += node.offsetTop;
+            } return y;
+        }
+                return 0;
+        };
+         $scope.currentYPosition= function() {
+            if (self.pageYOffset) {
+                return self.pageYOffset;
+                }
+            if (document.documentElement && document.documentElement.scrollTop) {
+                return document.documentElement.scrollTop;
+                }
+            if (document.body.scrollTop){
+                return document.body.scrollTop;
+                }
+
+            return 0;
+        };
+
+
+    });
+
     
     //Mode Filter
     project.filter('modeFilter', function() {

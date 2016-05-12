@@ -117,8 +117,19 @@ public abstract class SourceProfile implements ElementProfile {
     		LOG.debug("id = " + this.id + " - getItems()");
     	}
 		// GB : ligne a supprimer loadSource();
-		Source s = getElement();
-		return s.getItems();
+	   	ManagedSourceProfile msp=null;
+	   	if (this instanceof ManagedSourceProfile){
+	   		 msp = (ManagedSourceProfile) this;
+	   	}
+	   	Source s = getElement();
+	   	
+	   	if ( msp != null && msp.isComplexItems()){
+	   		//Do check items and remove not visible ones 
+	   		ItemParser parser = new ItemParser(s);
+//	   		s.setXmlStream(parser.getXMLStream());
+	   	}
+	   	List<Item> ret = s.getItems();
+		return ret;
 	}
 
 	/**

@@ -78,8 +78,14 @@ public class ManagedSourceProfile extends SourceProfile implements ManagedElemen
 	 * ttl of the Source.
 	 */	
 	private int ttl;
+	
+	private boolean complexItems;
+
+	private boolean highLight;
 	/*
-	 ************************** INIT ******************************** */	
+	 ************************** INIT ******************************** */
+
+	private String color;	
 	
 	/**
 	 * Constructor.
@@ -517,6 +523,33 @@ public class ManagedSourceProfile extends SourceProfile implements ManagedElemen
 		return fileId;
 	}
 
+
+	public boolean isComplexItems() {
+		return complexItems;
+	}
+
+
+	public void setComplexItems(boolean complexItems) {
+		this.complexItems = complexItems;
+	}
+
+
+	public void setHighLight(boolean hl) {
+		this.highLight = hl;
+		
+	}
+	public boolean getHighLight(){
+		return this.highLight; 
+	}
+
+
+	public void setColor(String color) {
+		this.color = color ;
+		
+	}
+	public String getColor(){
+		return this.color;
+	}
 
 	
 }

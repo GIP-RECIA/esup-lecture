@@ -55,6 +55,11 @@ public class SourceWebBean implements Comparable<SourceWebBean> {
      * an Category XML file.
      */
     private int xmlOrder = Integer.MAX_VALUE;
+    
+    
+    private boolean highlight = false;
+    
+    private String color = "";
 
     /**
      * Default constructor.
@@ -270,4 +275,20 @@ public class SourceWebBean implements Comparable<SourceWebBean> {
         }
         return false;
     }
+
+	public boolean isHighlight() {
+		return highlight;
+	}
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 }

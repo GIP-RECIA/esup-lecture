@@ -29,6 +29,7 @@ import org.esupportail.lecture.domain.model.CustomContext;
 import org.esupportail.lecture.domain.model.CustomSource;
 import org.esupportail.lecture.domain.model.Item;
 import org.esupportail.lecture.domain.model.ItemDisplayMode;
+import org.esupportail.lecture.domain.model.ManagedSourceProfile;
 import org.esupportail.lecture.domain.model.UserProfile;
 import org.esupportail.lecture.domain.model.VersionManager;
 import org.esupportail.lecture.exceptions.domain.CategoryNotVisibleException;
@@ -815,6 +816,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             sourceWebBean.setItemDisplayMode(ItemDisplayMode.ALL);
             sourceWebBean.setItemsNumber();
             sourceWebBean.setUnreadItemsNumber(0);
+            sourceWebBean.setHighlight(false);
+            sourceWebBean.setColor("");
         } else {
             //get Item for the source
             List<ItemBean> itemsBeans = new ArrayList<ItemBean>();
@@ -828,6 +831,9 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             sourceWebBean.setItemDisplayMode(sourceBean.getItemDisplayMode());
             sourceWebBean.setItemsNumber();
             sourceWebBean.setUnreadItemsNumber();
+            
+            sourceWebBean.setHighlight(sourceBean.isHighlight());
+            sourceWebBean.setColor(sourceBean.getColor());
         }
         return sourceWebBean;
     }

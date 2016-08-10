@@ -30,14 +30,15 @@ public interface DomainService {
 	 * @param ctxId : Context ID
 	 * @return Computed web bean context of the connected user.
 	 */
-	public ContextWebBean getContext(String userId, String ctxId);
+	public ContextWebBean getContext(String userId, String ctxId, boolean viewDef, int nombreArticle, String lienVue);
 
 	/**
 	 * @param userId : User ID
 	 * @param ctxId : Context ID
+	 * @param viewDef 
 	 * @return Computed web bean context of the connected user (in edit portlet mode).
 	 */
-	public ContextWebBean getEditContext(String userId, String ctxId);
+	public ContextWebBean getEditContext(String userId, String ctxId, boolean viewDef, String lienVue);
 
 	/**
 	 * @param userId 

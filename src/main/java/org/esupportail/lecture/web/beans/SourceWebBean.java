@@ -77,6 +77,9 @@ public class SourceWebBean implements Comparable<SourceWebBean> {
                 itemWebBean.setMobileHtmlContent(itemBean.getMobileHtmlContent());
                 itemWebBean.setRead(itemBean.isRead());
                 itemWebBean.setDummy(itemBean.isDummy());
+                itemWebBean.setAuthor(itemBean.getAuthor());
+                itemWebBean.setRubriques(itemBean.getRubriques());
+                itemWebBean.setPubDate(itemBean.getPubDate());
                 items.add(itemWebBean);
             }
         }

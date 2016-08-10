@@ -77,6 +77,16 @@ public abstract class SourceProfile implements ElementProfile {
 	 * Time Out of remote reloading.
 	 */
 	private int timeOut;
+	
+	public boolean isComplexItems() {
+		return complexItems;
+	}
+
+	public void setComplexItems(boolean complexItems) {
+		this.complexItems = complexItems;
+	}
+
+	private boolean complexItems;
 
 	/*
 	 *************************** INIT	 ******************************** */	
@@ -117,18 +127,16 @@ public abstract class SourceProfile implements ElementProfile {
     		LOG.debug("id = " + this.id + " - getItems()");
     	}
 		// GB : ligne a supprimer loadSource();
-	   	ManagedSourceProfile msp=null;
-	   	if (this instanceof ManagedSourceProfile){
-	   		 msp = (ManagedSourceProfile) this;
-	   	}
 	   	Source s = getElement();
-	   	
-	   	if ( msp != null && msp.isComplexItems()){
-	   		//Do check items and remove not visible ones 
+	   	List<Item> ret = null;
+	   	if ( this.isComplexItems()){
+	   		//Produit le flux xml (liste d'items) des flux publisher : 
+	   		//	gere la visibilité; les rubriques; permet de generer les rubriques et les auteurs
 	   		ItemParser parser = new ItemParser(s);
-//	   		s.setXmlStream(parser.getXMLStream());
-	   	}
-	   	List<Item> ret = s.getItems();
+	   		 ret = s.getItems(true, parser);
+	   	}else{
+	   		 ret = s.getItems(false, null);
+	   		}
 		return ret;
 	}
 

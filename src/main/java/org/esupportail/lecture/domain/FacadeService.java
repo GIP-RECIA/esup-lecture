@@ -94,14 +94,15 @@ public class FacadeService implements InitializingBean {
 	/**
 	 * @param userId : User ID
 	 * @param ctxId : Context ID
+	 * @param nbreArticle 
 	 * @return Computed web bean context of the connected user.
 	 */
-	public ContextWebBean getContext(String userId, String ctxId) {
-		return domainService.getContext(userId, ctxId);
+	public ContextWebBean getContext(String userId, String ctxId, boolean viewDef, int nbreArticle, String lienVue) {
+		return domainService.getContext(userId, ctxId, viewDef, nbreArticle, lienVue);
 	}
 
-	public ContextWebBean getEditContext(String userId, String ctxId) {
-		return domainService.getEditContext(userId, ctxId);
+	public ContextWebBean getEditContext(String userId, String ctxId, boolean viewDef, String lienVue) {
+		return domainService.getEditContext(userId, ctxId, viewDef, lienVue);
 	}
 
 	/**
@@ -270,5 +271,18 @@ public class FacadeService implements InitializingBean {
 		return externalService;
 	}
 
+
+	public boolean getCurrentViewDef() {
+		return externalService.getCurrentViewDef();
+	}
+
+
+	public int getNombreArcticle() {
+		return externalService.getNombreArticle();
+	}
+	
+	public String getLienVue(){
+		return externalService.getLienVue();
+	}
 
 }

@@ -83,7 +83,7 @@ public class DaoServiceRemoteXML implements InitializingBean {
 		 * search url in cache
 		 * if find
 		 * 	if lastDate + ttl > date
-		 *   if steel in cache
+		 *   if still in cache
 		 *    get from cache
 		 *   else
 		 *    warning (cache to small)
@@ -106,6 +106,9 @@ public class DaoServiceRemoteXML implements InitializingBean {
 
 		ManagedCategory ret = new ManagedCategory(profile);
 		String urlCategory = profile.getCategoryURL();
+		if(urlCategory == null || "".equals(urlCategory)){
+			urlCategory = profile.getUrlActualites();
+		}
 		String cacheKey = "CAT:" + profile.getId() + urlCategory;
 		try {
 			Element element = cache.get(cacheKey);

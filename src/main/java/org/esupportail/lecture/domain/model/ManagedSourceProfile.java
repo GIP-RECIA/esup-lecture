@@ -6,6 +6,8 @@
 package org.esupportail.lecture.domain.model;
 
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.esupportail.lecture.domain.DomainTools;
@@ -85,7 +87,9 @@ public class ManagedSourceProfile extends SourceProfile implements ManagedElemen
 	/*
 	 ************************** INIT ******************************** */
 
-	private String color;	
+	private String color;
+
+	private ArrayList<RubriquesPlublisher> rubriquesPublisher;	
 	
 	/**
 	 * Constructor.
@@ -524,16 +528,6 @@ public class ManagedSourceProfile extends SourceProfile implements ManagedElemen
 	}
 
 
-	public boolean isComplexItems() {
-		return complexItems;
-	}
-
-
-	public void setComplexItems(boolean complexItems) {
-		this.complexItems = complexItems;
-	}
-
-
 	public void setHighLight(boolean hl) {
 		this.highLight = hl;
 		
@@ -549,6 +543,14 @@ public class ManagedSourceProfile extends SourceProfile implements ManagedElemen
 	}
 	public String getColor(){
 		return this.color;
+	}
+
+	public ArrayList<RubriquesPlublisher>  getRubriquesPublisher (){
+		return this.rubriquesPublisher ; 
+	}
+	public void setRubriquesPlublisher(ArrayList<RubriquesPlublisher> rubriques) {
+		this.rubriquesPublisher = rubriques ;
+		
 	}
 
 	

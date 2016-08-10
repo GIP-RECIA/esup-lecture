@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 import org.esupportail.lecture.domain.model.TreeDisplayMode;
 
 /**
@@ -11,6 +12,7 @@ import org.esupportail.lecture.domain.model.TreeDisplayMode;
  * Top Object of the view
  */
 public class ContextWebBean {
+	private static final String A_LA_UNE = "A LA UNE";
 	/**
 	 * id of context.
 	 */
@@ -40,6 +42,9 @@ public class ContextWebBean {
 	* visibility of the tree panel
 	*/
 	private TreeDisplayMode treeVisible;
+	private boolean viewDef;
+	private int nombreArticle;
+	private String lienVue;
 
 	/**
 	 * get the id of the context.
@@ -195,6 +200,38 @@ public class ContextWebBean {
 	 */
 	public void setTreeVisible(TreeDisplayMode treeVisible) {
 		this.treeVisible = treeVisible;
+	}
+
+	public void setViewDef(boolean viewAcceuil) {
+		this.viewDef= viewAcceuil;
+		
+	}
+	public boolean isViewDef(){
+		return viewDef;
+	}
+
+	public void setNombreArticle(int nombreArticle) {
+		this.nombreArticle = nombreArticle;
+		
+	} 
+	public int getNombreArticle(){
+		return this.nombreArticle;
+	}
+	public String getLienVue(){
+		return this.lienVue;
+	}
+	public void setLienVue (String lienVue){
+		this.lienVue = lienVue;
+	}
+	public SourceWebBean hasHighLight() {
+		for (CategoryWebBean categoryWebBean : categories) {
+			for (SourceWebBean sourceWebBean : categoryWebBean.getSources()) {
+				if(sourceWebBean.getName().equalsIgnoreCase(A_LA_UNE)){
+					return sourceWebBean;
+					}
+			}
+		}
+		return null;
 	}
 	
 }

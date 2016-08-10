@@ -103,7 +103,7 @@ public class ExternalServiceImpl implements ExternalService, InitializingBean {
 		if (LOG.isTraceEnabled()) {
 			LOG.trace("getPreferences(" + name + ") return " + ret);
 		}
-
+		LOG.trace("getPreferences(" + name + ") return " + ret);
 		return ret;
 	}
 
@@ -187,6 +187,47 @@ public class ExternalServiceImpl implements ExternalService, InitializingBean {
 	 */
 	public void setDefaultService(final ModeService defaultService) {
 		this.defaultService = defaultService;
+	}
+
+	@Override
+	public boolean getCurrentViewDef() {
+		try {
+			if ("true".equalsIgnoreCase(getPreferences(DomainTools.getViewDef()))){
+				return true;
+			}
+		} catch (NoExternalValueException e) {
+			LOG.error("External Service : NoExternalValueException "+e.getMessage());
+		} catch (InternalExternalException e) {
+			LOG.error("External Service : InternalExternalException "+e.getMessage());
+		}
+		return false;
+	}
+
+	@Override
+	public int getNombreArticle() {
+		try {
+			return Integer.valueOf(getPreferences(DomainTools.getNombreArticle()));
+		} catch (NumberFormatException e) {
+			LOG.error("MCCM External Service : NumberFormatException "+e.getMessage());
+		} catch (NoExternalValueException e) {
+			LOG.error("External Service : NoExternalValueException "+e.getMessage());
+		} catch (InternalExternalException e) {
+			LOG.error("External Service : InternalExternalException "+e.getMessage());
+		}
+		return 0;
+	}
+
+	@Override
+	public String getLienVue() {
+		
+		try {
+			return getPreferences(DomainTools.getLienVue());
+		} catch (NoExternalValueException e) {
+			LOG.error("External Service : NoExternalValueException "+e.getMessage());
+		} catch (InternalExternalException e) {
+			LOG.error("External Service : InternalExternalException "+e.getMessage());
+		}
+		return "";
 	}
 
 }

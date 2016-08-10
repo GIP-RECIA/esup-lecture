@@ -106,6 +106,7 @@ public abstract class CustomSource implements CustomElement {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(IDEGAL + elementId + " - getItems()");
 		}
+		
 		SourceProfile profile;
 		try {
 			profile = getProfile();

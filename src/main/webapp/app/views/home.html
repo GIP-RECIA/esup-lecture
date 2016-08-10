@@ -1,43 +1,42 @@
 <div class="container-fluid">
 	<span us-spinner class="spinner">{{msgs['loading']}}</span>
-	<div class="row" ng-if="!gererPlusieursCat">
-		<div id="mobileSelect" class="col-sm-9" style="z-index:9999">
+	<div class="row" ng-if="!gererPlusieursCat && !isAccueil">
+		<div id="mobileSelect" class="col-sm-9" style="z-index: 9999">
 			<button type="button" ng-blur="selectBlured(mySource.idHtml)"
-				ng-focus="selectFocused(mySource.idHtml)" ng-click="selectClicked(this)"
-				ng-change="sourceChanged(mySource.idHtml)" class="btn btn-primary btn-lg btn-block"
-				ng-model="mySource" bs-options="src.selectDesc for src in allcats"
-				bs-select bs-affix>
+				ng-focus="selectFocused(mySource.idHtml)"
+				ng-click="selectClicked(this)"
+				ng-change="sourceChanged(mySource.idHtml)"
+				class="btn btn-primary btn-lg btn-block" ng-model="mySource"
+				bs-options="src.selectDesc for src in allcats" bs-select bs-affix>
 			</button>
 		</div>
 		<div class="col-sm-3">
 			<ul id="nav" class="nav bs-sidenav" bs-affix bs-scrollspy-list
 				role="complementary">
 				<li ng-class="{true : 'hl', false :'not-hl' }[src.highlight]"
-					ng-repeat="src in allcats" data-target="#{{src.idHtml}}">
-					<a id="{{src.name}}" ng-click="doScrollTo(src.idHtml)" href="#{{src.idHtml}}">
-						{{src.name}}
-						<span class="badge pull-right" style="background-color: {{src.color}}">{{
-							src.unreadItemsNumber
-							}}
-						</span>
-					</a>
-				</li>
+					ng-repeat="src in allcats" data-target="#{{src.idHtml}}"><a
+					id="{{src.name}}" ng-click="doScrollTo(src.idHtml)"
+					href="#{{src.idHtml}}"> {{src.name}} <span
+						class="badge pull-right" style="background-color: {{src.color}}">{{
+							src.unreadItemsNumber }} </span>
+				</a></li>
 
 			</ul>
 		</div>
 		<div class="col-md-9">
 			<div ng-repeat="source in allcats" data-target="#{{source.idHtml}}"
 				ng-if="!isSourceEmpty(source.id)" class="panel panel-default">
-				<div class="panel-heading" data-target="#{{source.idHtml}}"
-					bs-affix>{{source.name}}</div>
+				<div class="panel-heading" data-target="#{{source.idHtml}}" bs-affix>{{source.name}}</div>
 				<div id="{{source.idHtml}}"></div>
-				<div class="panel-body" ng-repeat="item in source.items | modeFilter:selectedMode">
+				<div class="panel-body"
+					ng-repeat="item in source.items | modeFilter:selectedMode">
 					<div ng-if="!item.read">
 
 						<div class="icon-controls">
-							<a class="lec-btn-link toggleButton pull-right" ng-click="toggleItemReadState( source, item)"
-								role="button" title="{{ msgs['markAsRead'] }}">
-								<i class="material-icons md-dark">visibility</i>
+							<a class="lec-btn-link toggleButton pull-right"
+								ng-click="toggleItemReadState( source, item)" role="button"
+								title="{{ msgs['markAsRead'] }}"> <i
+								class="material-icons md-dark">visibility</i>
 							</a>
 						</div>
 
@@ -46,8 +45,9 @@
 
 						<div class="col-xs-2 col-md-3 labelSpacer"></div>
 						<div class=" col-xs-9 col-md-8 labelRubrique">
-							<span ng-repeat="rubrique in item.rubriques" class="rubrique label"
-								ng-click="doScrollTo(rubrique.idHtml)" style="background-color:{{rubrique.color}}">{{rubrique.name}}
+							<span ng-repeat="rubrique in item.rubriques"
+								class="rubrique label" ng-click="doScrollTo(rubrique.idHtml)"
+								style="background-color: {{rubrique.couleur}}">{{rubrique.nom}}
 							</span>
 
 						</div>
@@ -55,18 +55,19 @@
 					</div>
 					<div ng-if="item.read">
 						<div class="icon-controls">
-							<a class="lec-btn-link toggleButton pull-right" ng-click="toggleItemReadState( source, item)"
-								role="button" title="{{ msgs['markAsUnread'] }}">
-								<i class="material-icons md-dark">visibility_off</i>
+							<a class="lec-btn-link toggleButton pull-right"
+								ng-click="toggleItemReadState( source, item)" role="button"
+								title="{{ msgs['markAsUnread'] }}"> <i
+								class="material-icons md-dark">visibility_off</i>
 							</a>
 						</div>
-						<div class="readArticle" ng-bind-html="item.htmlContent">
-						</div>
+						<div class="readArticle" ng-bind-html="item.htmlContent"></div>
 
 						<div class="col-xs-2 col-md-3 labelSpacer"></div>
 						<div class=" col-xs-9 col-md-8 labelRubrique">
-							<span ng-repeat="rubrique in item.rubriques" ng-click="doScrollTo(rubrique.idHtml)"
-								class="rubrique label" style="background-color:{{rubrique.color}}">{{rubrique.name}}</span>
+							<span ng-repeat="rubrique in item.rubriques"
+								ng-click="doScrollTo(rubrique.idHtml)" class="rubrique label"
+								style="background-color: {{rubrique.couleur}}">{{rubrique.nom}}</span>
 
 						</div>
 						<hr />
@@ -75,81 +76,85 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" ng-if="gererPlusieursCat">
-		 <div id="mobileSelect" class="col-sm-9" style="z-index:9999">
-                        <button type="button" ng-blur="selectBlured(mySource.idHtml)"
-                                ng-focus="selectFocused(mySource.idHtml)" ng-click="selectClicked(this)"
-                                ng-change="sourceChanged(mySource.idHtml)" class="btn btn-primary btn-lg btn-block"
-                                ng-model="mySource" bs-options="src.selectDesc for src in allcats"
-                                bs-select bs-affix>
-                        </button>
-                </div>
+	<div class="row" ng-if="gererPlusieursCat && !isAccueil">
+		<div id="mobileSelect" class="col-sm-9" style="z-index: 9999">
+			<button type="button" ng-blur="selectBlured(mySource.idHtml)"
+				ng-focus="selectFocused(mySource.idHtml)"
+				ng-click="selectClicked(this)"
+				ng-change="sourceChanged(mySource.idHtml)"
+				class="btn btn-primary btn-lg btn-block" ng-model="mySource"
+				bs-options="src.selectDesc for src in allcats" bs-select bs-affix>
+			</button>
+		</div>
 
 		<div
 			ng-class="{true:'col-sm-3', false:'hidden-lg hidden-md hidden-sm hidden-xs'}[treeDisplayed()]">
-			<ul class="nav bs-sidenav" bs-affix bs-scrollspy-list  role="complementary">
-				<li ng-repeat="cat in cats" data-target="#{{cat.idHtml}}">
-					<a name="{{cat.name}}" ng-click="select(cat.id)">{{cat.name}}
-					</a>
-					<ul class="nav" >
+			<ul class="nav bs-sidenav" bs-affix bs-scrollspy-list
+				role="complementary">
+				<li ng-repeat="cat in cats" data-target="#{{cat.idHtml}}"><a
+					name="{{cat.name}}" ng-click="select(cat.id)">{{cat.name}} </a>
+					<ul class="nav">
 						<li ng-repeat="src in cat.sources" data-target="#{{src.idHtml}}">
-							<a name="{{src.name}}" ng-click="doScrollTo(src.idHtml)" href="#{{src.idHtml}}">
-								{{src.name}}
-								<span class="badge pull-right">{{ src.unreadItemsNumber }}
-								</span>
-							</a>
+							<a name="{{src.name}}" ng-click="doScrollTo(src.idHtml)"
+							href="#{{src.idHtml}}"> {{src.name}} <span
+								class="badge pull-right">{{ src.unreadItemsNumber }} </span>
+						</a>
 						</li>
-					</ul>
-				</li>
+					</ul></li>
 			</ul>
 		</div>
 		<div class="col-md-9">
-			<div ng-repeat="cat in selectedCats" >
+			<div ng-repeat="cat in selectedCats">
 				<div ng-if="!isCatEmpty(cat.id)">
-					<div ng-repeat="source in cat.selectedSrcs" class="panel panel-default">
-						<div ng-if="!isSourceEmpty(source.id,cat.id)" class= "panel-heading" data-target="#{{source.idHtml}}"  bs-affix>
-							{{cat.name}}--{{ source.name }}
-						</div>
+					<div ng-repeat="source in cat.selectedSrcs"
+						class="panel panel-default">
+						<div ng-if="!isSourceEmpty(source.id,cat.id)"
+							class="panel-heading" data-target="#{{source.idHtml}}" bs-affix>
+							{{cat.name}}--{{ source.name }}</div>
 						<div
 							ng-if="isSourceEmpty(source.id,cat.id) && (isSelectedSrc(source) || guestMode) "
 							class="panel-body">
-							<p> {{msgs['noNewsForSrc']}} {{source.name}}</p>
+							<p>{{msgs['noNewsForSrc']}} {{source.name}}</p>
 						</div>
-						<div id="{{source.idHtml}}" ></div>
+						<div id="{{source.idHtml}}"></div>
 						<div ng-repeat="item in source.items | modeFilter:selectedMode"
 							class="panel-body">
 							<div ng-if="!item.read && !guestMode">
 								<div class="icon-controls">
-								<a class="lec-btn-link toggleButton pull-right" ng-click="toggleItemReadState(source, item)"
-									role="button" title="{{ msgs['markAsRead'] }}">
-									<i class="material-icons md-dark">visibility</i>
-								</a>
+									<a class="lec-btn-link toggleButton pull-right"
+										ng-click="toggleItemReadState(source, item)" role="button"
+										title="{{ msgs['markAsRead'] }}"> <i
+										class="material-icons md-dark">visibility</i>
+									</a>
 								</div>
 								<div class="unreadArticle" ng-bind-html="item.htmlContent">
 								</div>
 								<div class="col-xs-2 col-md-3 labelSpacer"></div>
 								<div class=" col-xs-9 col-md-8 labelRubrique">
-								<span ng-repeat="rubrique in item.rubriques" class="rubrique label"
-									ng-click="doScrollTo(rubrique.idHtml)" style="background-color:{{rubrique.color}}">{{rubrique.name}}
-								</span>
+									<span ng-repeat="rubrique in item.rubriques"
+										class="rubrique label" ng-click="doScrollTo(rubrique.idHtml)"
+										style="background-color: {{rubrique.couleur}}">{{rubrique.nom}}
+									</span>
 								</div>
 								<hr />
 							</div>
 							<div ng-if="item.read && !guestMode ">
 								<div class="icon-controls">
-								<a class="lec-btn-link toggleButton pull-right" ng-click="toggleItemReadState(cat, source, item)"
-									role="button" title="{{ msgs['markAsUnread'] }}" ng-if="item.read">
-									<i class="material-icons md-dark">visibility_off</i>
-								</a>
+									<a class="lec-btn-link toggleButton pull-right"
+										ng-click="toggleItemReadState(cat, source, item)"
+										role="button" title="{{ msgs['markAsUnread'] }}"
+										ng-if="item.read"> <i class="material-icons md-dark">visibility_off</i>
+									</a>
 								</div>
 								<div class="readArticle" ng-bind-html="item.htmlContent">
 								</div>
 								<div class="col-xs-2 col-md-3 labelSpacer"></div>
 								<div class=" col-xs-9 col-md-8 labelRubrique">
-								<span ng-repeat="rubrique in item.rubriques" class="rubrique label"
-								ng-click="doScrollTo(rubrique.idHtml)" style="background-color:{{rubrique.color}}">{{rubrique.name}}
-								</span>
-							</div>
+									<span ng-repeat="rubrique in item.rubriques"
+										class="rubrique label" ng-click="doScrollTo(rubrique.idHtml)"
+										style="background-color: {{rubrique.couleur}}">{{rubrique.nom}}
+									</span>
+								</div>
 								<hr />
 							</div>
 						</div>
@@ -157,11 +162,37 @@
 				</div>
 				<!-- Un message pour dire que la categorie est vide si elle est selectionnée 
 					sur l'arbre -->
-				<div ng-if="isCatEmpty(cat.id) && (isSelectedCat(cat) || guestMode ) "
+				<div
+					ng-if="isCatEmpty(cat.id) && (isSelectedCat(cat) || guestMode ) "
 					class="col-lg-12 panel-heading">
-					<h4>{{msgs['noNewsForCat']}} "{{cat.name}}" </h4>
+					<h4>{{msgs['noNewsForCat']}} "{{cat.name}}"</h4>
 				</div>
 			</div>
 		</div>
 
 	</div>
+	<div class="row" ng-if="isAccueil">
+		<div class="panel panel-default">
+			<div class="panel panel-heading">
+				<span class = "pull-left">{{msgs['newsNotRead']}} : {{numberUnread}}</span>
+				<a type="button" class="btn btn-large btn-primary pull-right" href="{{lienVue}}">{{msgs['seeAll']}}</a>
+			</div>
+			<div class="panel-body"
+				ng-repeat="item in acceuilItems | modeFilter:selectedMode">
+				<div ng-if="!item.read ">
+					<div class="unreadArticle" ng-bind-html="item.htmlContent"></div>
+				</div>
+				<div ng-if="item.read">
+					<div class="readArticle" ng-bind-html="item.htmlContent"></div>
+				</div>
+				<hr />
+			</div>
+			 <div class ="panel-footer">
+                                <a class ="pull-right" href="{{lienVue}}">{{msgs['seeAll']}}</a>
+                        </div>
+			
+		</div>
+	</div>
+
+</div>
+

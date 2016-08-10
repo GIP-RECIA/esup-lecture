@@ -29,7 +29,6 @@ import org.esupportail.lecture.domain.model.CustomContext;
 import org.esupportail.lecture.domain.model.CustomSource;
 import org.esupportail.lecture.domain.model.Item;
 import org.esupportail.lecture.domain.model.ItemDisplayMode;
-import org.esupportail.lecture.domain.model.ManagedSourceProfile;
 import org.esupportail.lecture.domain.model.UserProfile;
 import org.esupportail.lecture.domain.model.VersionManager;
 import org.esupportail.lecture.exceptions.domain.CategoryNotVisibleException;
@@ -50,6 +49,7 @@ import org.esupportail.lecture.exceptions.domain.TreeSizeErrorException;
 import org.esupportail.lecture.exceptions.web.WebException;
 import org.esupportail.lecture.web.beans.CategoryWebBean;
 import org.esupportail.lecture.web.beans.ContextWebBean;
+import org.esupportail.lecture.web.beans.ItemWebBean;
 import org.esupportail.lecture.web.beans.SourceWebBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -241,7 +241,6 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             CustomSource customSource = userProfile.getCustomSource(sourceId);
             List<Item> listItems;
             listItems = customSource.getItems();
-
             for (Item item : listItems) {
                 ItemBean itemBean = new ItemBean(item, customSource);
                 listItemBean.add(itemBean);
@@ -279,7 +278,26 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             UserProfile userProfile = getUserProfile(userId);
             CustomSource customSource;
             customSource = userProfile.getCustomSource(sourceId);
-            customSource.setItemReadMode(itemId, isRead);
+            // Modif pour marquer lu l'element sur toutes ses sources 
+            for (CustomSource csrs : userProfile.getCustomSources().values()) {
+				try {
+					for (Item itm : csrs.getItems()) {
+						if(itm.getId().equals(itemId)){
+							csrs.setItemReadMode(itemId, isRead);
+						}
+					}
+				} catch (SourceNotLoadedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ManagedCategoryNotLoadedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ComputeItemsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+           
         } catch (CustomSourceNotFoundException e) {
             String errorMsg = "CustomSourceNotFoundException for service 'marckItemReadMode(user "
                     + userId + ", source " + sourceId + ", item " + itemId + ", isRead " + isRead + ")";
@@ -631,7 +649,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
      * java.lang.String)
      */
     @Override
-    public ContextWebBean getContext(String userId, String ctxId) {
+    public ContextWebBean getContext(String userId, String ctxId, boolean viewDef, int nombreArticle, String lienVue) {
         ContextWebBean context = new ContextWebBean();
         try {
             UserProfile userProfile = getUserProfile(userId);
@@ -641,6 +659,9 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             context.setDescription(contextBean.getDescription());
             context.setTreeSize(contextBean.getTreeSize());
             context.setTreeVisible(contextBean.getTreeVisible());
+            context.setViewDef(viewDef);
+            context.setNombreArticle(nombreArticle);
+            context.setLienVue(lienVue);
             //find categories in this context
             List<CategoryBean> categories = getCategories(ctxId, userProfile);
             List<CategoryWebBean> categoriesWeb = new ArrayList<CategoryWebBean>();
@@ -675,7 +696,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
     }
 
     @Override
-    public ContextWebBean getEditContext(String userId, String ctxId) {
+    public ContextWebBean getEditContext(String userId, String ctxId, boolean viewDef, String lienVue) {
         ContextWebBean context = new ContextWebBean();
         try {
             UserProfile userProfile = getUserProfile(userId);
@@ -685,6 +706,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
             context.setDescription(contextBean.getDescription());
             context.setTreeSize(contextBean.getTreeSize());
             context.setTreeVisible(contextBean.getTreeVisible());
+            context.setViewDef(viewDef);
+            context.setLienVue(lienVue);
             //find categories in this context
             List<CategoryBean> categories = getVisibleCategories(ctxId, userProfile);
             //TODO gérer le getCategories et getSources pour le mode edit
@@ -713,13 +736,69 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
                 }
             }
             context.setCategories(categoriesWeb);
+//            if(context.isViewDef()){
+//            	// La vue accueil est definie 
+//            	// On change les elements du context 
+//            	this.createVueAccueil(context);
+//            }
         } catch (Exception e) {
             throw new WebException("Error in getContext", e);
         }
         return context;
     }
 
-    /**
+    private void createVueAccueil(ContextWebBean context) {
+    	// On cree la category qui va contenir la source accueil 
+    	CategoryWebBean catAccueil = new CategoryWebBean();
+    	// On cree la source qui va contenir les items accueil 
+    	ArrayList<SourceWebBean> lesSourcesAccueil = new ArrayList<SourceWebBean>();
+    	// Si on a une rubrique << à la une >>
+    	SourceWebBean rubHL = context.hasHighLight();
+    	if( rubHL != null){
+    		if (rubHL.getItems().size() > context.getNombreArticle()){
+    			ArrayList<ItemBean> itemBeans = new ArrayList<ItemBean>();
+    			for (int i =0; i< context.getNombreArticle(); i++){
+    				ItemWebBean itm = rubHL.getItems().get(i);
+    				ItemBean itmBean = new ItemBean();
+    				itmBean.setAuthor(itm.getAuthor());
+    				itmBean.setHtmlContent(itm.getHtmlContent());
+    				itmBean.setId(itm.getId());
+    				itmBean.setPubDate(itm.getPubDate());
+    				itmBean.setRead(itm.isRead());
+    				itmBean.setRubriques(itm.getRubriques());
+    				itmBean.setMobileHtmlContent(itm.getMobileHtmlContent());
+    				itmBean.setUidAuthor(itm.getUidAuthor());
+    				itemBeans.add(itmBean);
+    			}
+    			SourceWebBean srcAccueil = new SourceWebBean(itemBeans);
+    			lesSourcesAccueil.add(srcAccueil);
+    			catAccueil.setSources(lesSourcesAccueil);
+    		}else if (rubHL.getItems().size() < rubHL.getItems().size())  {
+    			ArrayList<ItemBean> itemBeans = new ArrayList<ItemBean>();
+    			for (int i =0; i< context.getNombreArticle(); i++){
+    				ItemWebBean itm = rubHL.getItems().get(i);
+    				ItemBean itmBean = new ItemBean();
+    				itmBean.setAuthor(itm.getAuthor());
+    				itmBean.setHtmlContent(itm.getHtmlContent());
+    				itmBean.setId(itm.getId());
+    				itmBean.setPubDate(itm.getPubDate());
+    				itmBean.setRead(itm.isRead());
+    				itmBean.setRubriques(itm.getRubriques());
+    				itmBean.setMobileHtmlContent(itm.getMobileHtmlContent());
+    				itmBean.setUidAuthor(itm.getUidAuthor());
+    				itemBeans.add(itmBean);
+    			}
+    			SourceWebBean srcAccueil = new SourceWebBean(itemBeans);
+    			lesSourcesAccueil.add(srcAccueil);
+    			catAccueil.setSources(lesSourcesAccueil);
+    		}else {
+    			
+    		}
+    	}
+		
+	}
+
+	/**
      * @param ctxtId
      * @param userProfile
      * @return list of available categories

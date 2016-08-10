@@ -1,5 +1,11 @@
 package org.esupportail.lecture.web.beans;
 
+import java.util.Date;
+import java.util.List;
+
+import org.esupportail.lecture.domain.model.Author;
+import org.esupportail.lecture.domain.model.RubriquesPlublisher;
+
 /**
  * @author bourges
  * used to display item informations in view
@@ -25,6 +31,16 @@ public class ItemWebBean {
 	 * Dummy state of this bean.
 	 */
 	private boolean dummy;
+	private String uidAuthor;
+	private List<RubriquesPlublisher> rubriques;
+	private Author author;
+	private Date pubDate;
+	public Date getPubDate() {
+		return pubDate;
+	}
+	public void setPubDate(Date pubDate) {
+		this.pubDate = pubDate;
+	}
 	/**
 	 * @return html content of item
 	 */
@@ -84,6 +100,27 @@ public class ItemWebBean {
 	 */
 	public boolean isDummy() {
 		return dummy;
+	}
+	public void setUidAuthor(String uidAuthor) {
+		this.uidAuthor = uidAuthor ;
+		
+	}
+	public String getUidAuthor(){
+		return uidAuthor;
+	}
+	public List<RubriquesPlublisher> getRubriques(){
+		return this.rubriques;
+	}
+	public void setRubriques(List<RubriquesPlublisher> rubriques) {
+		this.rubriques = rubriques ;
+		
+	}
+	public Author getAuthor(){
+		return this.author;
+	}
+	public void setAuthor(Author author) {
+		this.author = author;
+		
 	}
 	
 

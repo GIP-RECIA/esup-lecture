@@ -101,6 +101,10 @@ public class ManagedCategoryProfile extends CategoryProfile implements ManagedEl
 	 * Visibility rights on the managed category (takes care of inheritance regulars).
 	 */
 	private VisibilitySets visibility;
+	
+	private boolean isFromPublisher = false ;
+	
+	private String urlActualites;
 
 
 	/*
@@ -677,6 +681,22 @@ public class ManagedCategoryProfile extends CategoryProfile implements ManagedEl
 	public final void setFileId(String contextId, String fileId) {
 		this.fileId = fileId;
 		super.setId(super.makeId(contextId, "m", fileId));
+	}
+
+	public boolean isFromPublisher() {
+		return isFromPublisher;
+	}
+
+	public void setFromPublisher(boolean isFromPublisher) {
+		this.isFromPublisher = isFromPublisher;
+	}
+
+	public String getUrlActualites() {
+		return urlActualites;
+	}
+
+	public void setUrlActualites(String urlActualites) {
+		this.urlActualites = urlActualites;
 	}
 
 }

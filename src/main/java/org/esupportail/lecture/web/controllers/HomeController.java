@@ -65,6 +65,7 @@ public class HomeController extends TwoPanesController {
      */
     @ResourceMapping(value = "toggleItemReadState")
     public void toggleItemReadState(
+    		
             @RequestParam(required = true, value = "p1") String catID,
             @RequestParam(required = true, value = "p2") String srcID,
             @RequestParam(required = true, value = "p3") String itemID,
@@ -90,6 +91,9 @@ public class HomeController extends TwoPanesController {
     private ContextWebBean getContext() {
         String ctxId;
         ctxId = facadeService.getCurrentContextId();
-        return facadeService.getContext(getUID(), ctxId);
+        boolean viewDef = facadeService.getCurrentViewDef();
+        int nbreArticle = facadeService.getNombreArcticle();
+        String lienVue = facadeService.getLienVue();
+        return facadeService.getContext(getUID(), ctxId, viewDef, nbreArticle, lienVue);
     }
 }

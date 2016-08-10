@@ -1,61 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mappings SYSTEM "mappings.dtd" >
-
-<!-- examples of mapping for applying xsl transformation to xml sources 
-See projet documentation for complete syntax reference
-xlstFiles given here are only samples and must be copied and modified on your own domain
--->
 <mappings>
-<!-- 
-	<mapping 
-		sourceURL="http://info.cri.univ-rennes1.fr/rss/rss.php"
-		xsltFile="http://partages.univ-rennes1.fr/files/partages/Services/CRI/SI/conf_lecture_gwe_ray/stylesheet01.xsl"
-		itemXPath="/rdf:RDF/default:item">
-		<XPathNameSpace prefix="rdf" uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-		<XPathNameSpace prefix="default" uri="http://purl.org/rss/1.0/" />
+	<mapping sourceURL = "http://tintin.giprecia.net/"
+		xsltFile="http://tintin.giprecia.net/catTestRightItems.xsl"
+		mobileXsltFile="http://tintin.giprecia.net/catTestRightItems.xsl"
+		itemXPath="/actualites/items/item">
 	</mapping>
- -->
-	<mapping 
-		sourceURL="${config.url.prefix}/examples/xml/flux.offline1.xml"
-		xsltFile="${config.url.prefix}/examples/xsl/rss-jquery-clickable.xsl"
-		mobileXsltFile="${config.url.prefix}/examples/xsl/rss-mobile.xsl"
-		itemXPath="/rss/channel/item[position()&lt;16]">
+	<mapping sourceURL="https://lycees.netocentre.fr/esup-news/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-jquery-inline.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile.xsl"
+		itemXPath="/rss/channel/item">
 	</mapping>
-	<mapping 
-		sourceURL="${config.url.prefix}/examples/xml/flux.offline2.xml"
-		xsltFile="${config.url.prefix}/examples/xsl/rss-jquery-inline.xsl"
-		mobileXsltFile="${config.url.prefix}/examples/xsl/rss-mobile.xsl"
-		itemXPath="/rss/channel/item[position()&lt;16]">
+	<mapping sourceURL="https://www.touraine-eschool.fr/esup-news/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-jquery-inline.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile.xsl"
+		itemXPath="/rss/channel/item">
 	</mapping>
-	<mapping 
-		sourceURL="${config.url.prefix}/examples/xml/flux.offline3.xml"
-		xsltFile="${config.url.prefix}/examples/xsl/rss-jquery-dialog.xsl"
-		mobileXsltFile="${config.url.prefix}/examples/xsl/rss-mobile.xsl"
-		itemXPath="/rss/channel/item[position()&lt;16]">
+	<mapping sourceURL="https://cfa.netocentre.fr/esup-news/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-jquery-inline.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile.xsl"
+		itemXPath="/rss/channel/item">
 	</mapping>
-	<mapping 
-		rootElement="rss"
-		xsltFile="${config.url.prefix}/examples/xsl/rss-jquery-inline.xsl"
-		mobileXsltFile="${config.url.prefix}/examples/xsl/rss-mobile.xsl"
-		itemXPath="/rss/channel/item[position()&lt;16]">
+	<mapping sourceURL="http://www.jeunesocentre.fr/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile-joc-regioncentre.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile-joc-regioncentre.xsl"
+		itemXPath="/rss/channel/item">
 	</mapping>
-	<mapping 
-		rootElement="RDF"
-		xsltFile="${config.url.prefix}/examples/xsl/rdf.xsl"
-		itemXPath="/rdf:RDF/default:item">
-		<XPathNameSpace prefix="rdf" uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-		<XPathNameSpace prefix="default" uri="http://purl.org/rss/1.0/" />
+	<mapping sourceURL="http://www.cg37.fr/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-actu-CG37.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile-actu-CG37.xsl"
+		itemXPath="/rss/channel/item">
 	</mapping>
-
-	<mapping 
-		rootElement="flash"
-		xsltFile="${config.url.prefix}/examples/xsl/flash.xsl"
+	<mapping sourceURL="http://www.etoile.regioncentre.fr/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-etoile.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile-etoile.xsl"
+		itemXPath="/rss/channel">
+	</mapping>
+	<mapping rootElement="rss"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/stylesheet02.xsl"
+		mobileXsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-mobile.xsl"
+		itemXPath="/rss/channel/item">
+	</mapping>
+	<mapping rootElement="flash"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/flash.xsl"
 		itemXPath="/flash/object">
 	</mapping>
-
-	<mapping 
-		rootElement="java"
-		xsltFile="${config.url.prefix}/examples/xsl/java.xsl"
+	<mapping rootElement="java"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/java.xsl"
 		itemXPath="/java/applet">
 	</mapping>
+	<mapping rootElement="ServiceSuccess"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/stylesheetCNS.xsl"
+		itemXPath="/ServiceSuccess/Catalogue/Ressource">
+	</mapping>
+	<mapping rootElement="ArrayOfRessourceInfo"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/stylesheetKNE.xsl"
+		itemXPath="/ArrayOfRessourceInfo/RessourceInfo">
+	</mapping>
+	<mapping sourceURL="http://www.canal-u.tv/layout/set/rss/"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/Canal-U.xsl"
+		itemXPath="/rss/channel/item">
+	</mapping>
+	<mapping rootElement="listeRessources"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/GAR.xsl"
+		itemXPath="/listeRessources/ressources">
+	</mapping>
+	<mapping rootElement="AutresRessources"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/autresRessources.xsl"
+		itemXPath="/AutresRessources/Ressource">
+	</mapping>
+        <mapping rootElement="LiensEdutiles"
+                xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/liensEdutiles.xsl"
+                itemXPath="/LiensEdutiles">
+        </mapping>
+        <mapping rootElement="LiensUtilAgri"
+                xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/liensUtilAgri.xsl"
+                itemXPath="/LiensUtilAgri">
+        </mapping>
+        <mapping rootElement="ressourceCiclic"
+                xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/rss-ciclic.xsl"
+                itemXPath="/ressourceCiclic">
+        </mapping>
+	<mapping rootElement="AideAuxDevoirs"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/AideAuxDevoirs.xsl"
+		itemXPath="/AideAuxDevoirs/Ressource">
+	</mapping>
+	<mapping rootElement="Ressource"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/ManuelsNumeriques.xsl"
+		itemXPath="Ressource">
+	</mapping>
+	<mapping rootElement="DocAdmin"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/DocAdminENT.xsl"
+		itemXPath="DocAdmin/Documentation">
+	</mapping>
+	<mapping rootElement="RessourcesRegion"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/RessourcesRegion.xsl"
+		itemXPath="/RessourcesRegion/Ressource">
+	</mapping>
+	<mapping rootElement="ServiceFailure"
+		xsltFile="http://lycees.netocentre.fr/files/esupLecture/xsl/errorCNS.xsl"
+		itemXPath="/ServiceFailure/error">
+	</mapping>
+	<mapping rootElement="items"
+		xsltFile="http://test-lycee.reciaent.fr/catTestRightItems.xsl"
+		 mobileXsltFile="http://test-lycee.reciaent.fr/catTestRightItemsMobile.xsl"
+                itemXPath="/items/item"></mapping>
 </mappings>

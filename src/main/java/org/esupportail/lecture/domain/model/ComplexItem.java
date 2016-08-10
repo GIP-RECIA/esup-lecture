@@ -1,8 +1,13 @@
 package org.esupportail.lecture.domain.model;
 
+import java.util.List;
+
 public class ComplexItem extends Item {
 
+//	private List<Rubrique> rubriques;
 	private VisibilitySets visibility; 
+	private Author author;
+	private List<RubriquesPlublisher> rubriques;
 	public ComplexItem(Source source) {
 		super(source);
 	}
@@ -11,5 +16,17 @@ public class ComplexItem extends Item {
 	}
 	public VisibilitySets getVisibility() {
 		return visibility;
+	}
+	public Author getAuthor() {
+		return author;
+	}
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+	public  List<RubriquesPlublisher> getRubriques() {
+		return rubriques;
+	}
+	public void setRubriques( List<RubriquesPlublisher>rubriques) {
+		this.rubriques = rubriques;
 	}
 }

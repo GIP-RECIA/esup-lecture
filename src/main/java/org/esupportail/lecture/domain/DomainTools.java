@@ -119,6 +119,12 @@ public class DomainTools implements InitializingBean {
 	 */
 	private static int configTtl;
 
+	private static String viewDef;
+
+	private static String nombreArticle;
+
+	private static String lienVue;
+
 
 
 
@@ -478,6 +484,46 @@ public class DomainTools implements InitializingBean {
 	 */
 	public static void setConfigTtl(int configTtl) {
 		DomainTools.configTtl = configTtl;
+	}
+
+
+
+
+	public static String getViewDef() {
+		return DomainTools.viewDef;
+	}
+
+
+
+
+	public static void setViewDef(String viewDef2) {
+		DomainTools.viewDef = viewDef2;
+		
+	}
+
+
+
+
+	public static String getNombreArticle() {
+		return DomainTools.nombreArticle;
+	}
+
+
+
+
+	public static void setNombreArticle(String nbreArticle) {
+		DomainTools.nombreArticle = nbreArticle;
+		
+	}
+
+
+	public static String getLienVue() {
+		return DomainTools.lienVue;
+	}
+
+	public static void setLienVue(String lienVue) {
+		DomainTools.lienVue = lienVue;
+		
 	}
 
 

@@ -5,8 +5,14 @@
 */
 package org.esupportail.lecture.domain.beans;
 
+import java.util.Date;
+import java.util.List;
+
+import org.esupportail.lecture.domain.model.Author;
+import org.esupportail.lecture.domain.model.ComplexItem;
 import org.esupportail.lecture.domain.model.CustomSource;
 import org.esupportail.lecture.domain.model.Item;
+import org.esupportail.lecture.domain.model.RubriquesPlublisher;
 
 /**
  * used to store item informations.
@@ -33,6 +39,10 @@ public class ItemBean {
 	 * store if item is read or not.
 	 */
 	private boolean read;
+	private String uidAuthor;
+	private List<RubriquesPlublisher> rubriques;
+	private Author author;
+	private Date pubDate;
 	
 	/*
 	 *************************** INIT ************************************** */	
@@ -53,6 +63,13 @@ public class ItemBean {
 		htmlContent = it.getHtmlContent();
 		mobileHtmlContent = it.getMobileHtmlContent();
 		read = customSource.isItemRead(id);
+		pubDate = it.getPubDate();
+		if (it instanceof ComplexItem){
+			ComplexItem cIt = (ComplexItem) it;
+			this.setUidAuthor(cIt.getAuthor().getUid());
+			this.setRubriques(cIt.getRubriques());
+			this.setAuthor(cIt.getAuthor());
+		}
 	}
 	
 	/*
@@ -128,6 +145,36 @@ public class ItemBean {
 		string += "     read = " + read + "\n";
 		
 		return string;
+	}
+
+	public String getUidAuthor() {
+		return uidAuthor;
+	}
+
+	public void setUidAuthor(String uidAuthor) {
+		this.uidAuthor = uidAuthor;
+	}
+
+	public List<RubriquesPlublisher> getRubriques() {
+		return rubriques;
+	}
+
+	public void setRubriques(List<RubriquesPlublisher> rubriques) {
+		this.rubriques = rubriques;
+	}
+	public void setAuthor(Author author){
+		this.author = author;
+	}
+	public Author getAuthor() {
+		return this.author;
+	}
+
+	public Date getPubDate() {
+		return pubDate;
+	}
+
+	public void setPubDate(Date pubDate) {
+		this.pubDate = pubDate;
 	}
 
 }

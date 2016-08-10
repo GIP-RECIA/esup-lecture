@@ -454,7 +454,8 @@ public class ChannelConfig  {
 						}
 
 						mcp.setName(categoryProfile.valueOf("@name"));
-						mcp.setCategoryURL(categoryProfile.valueOf("@urlCategory"));
+						
+						
 						mcp.setTrustCategory(getBoolean(categoryProfile.valueOf("@trustCategory"), false));
 						mcp.setUserCanMarkRead(getBoolean(categoryProfile.valueOf("@userCanMarkRead"), true));
 						String specificUserContentValue = categoryProfile.valueOf("@specificUserContent");
@@ -484,7 +485,15 @@ public class ChannelConfig  {
 						visibilitySets.setAutoSubscribed(loadDefAndContentSets("autoSubscribed", categoryProfile));
 						visibilitySets.setObliged(loadDefAndContentSets("obliged", categoryProfile));
 						mcp.setVisibility(visibilitySets);
-
+						// @TODO MCCM DISTINGUER LES CATEGORY PROFILES ICI PUIS TRAITER DIFFEREMMENT LES CATEGORY PAR TYPE
+						// ;'(
+						//@TODO
+						if(categoryProfile.valueOf("@urlCategory") != null && !"".equals(categoryProfile.valueOf("@urlCategory"))){
+							mcp.setCategoryURL(categoryProfile.valueOf("@urlCategory"));
+						}else if (!"".equals(categoryProfile.valueOf("@urlActualites"))){
+							mcp.setFromPublisher(true);
+							mcp.setUrlActualites(categoryProfile.valueOf("@urlActualites"));
+						}
 						channel.addManagedCategoryProfile(mcp);
 						c.addRefIdManagedCategoryProfile(mcp.getId());
 						orderedCategoryIDs.put(mcp.getId(), xmlOrder);

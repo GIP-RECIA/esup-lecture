@@ -122,7 +122,9 @@ public class EditController extends TwoPanesController {
     private ContextWebBean getContext() {
         String ctxId;
         ctxId = facadeService.getCurrentContextId();
-        return facadeService.getEditContext(getUID(), ctxId);
+        boolean viewDef = facadeService.getCurrentViewDef();
+        String lienVue = facadeService.getLienVue();
+        return facadeService.getEditContext(getUID(), ctxId, viewDef, lienVue);
     }
 
 }

@@ -1,5 +1,7 @@
 package org.esupportail.lecture.domain.model;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -33,6 +35,7 @@ public class Item {
 	 * Source parent of this item.
 	 */
 	private Source parent;
+	private Date pubDate;
 
 	/*
 	 *************************** INIT ************************************** */	
@@ -128,6 +131,14 @@ public class Item {
 	public Source getParent() {
 		return parent;
 	}
-	
+
+
+	public void setPubDate(Date date) {
+		this.pubDate = date;
+		
+	}
+	public Date getPubDate() {
+		return pubDate;
+	}
 
 }

@@ -89,7 +89,7 @@
 		<property name="contextString" value="context"/>
 		<property name="dummyTtl" value="60"/>
 		<property name="defaultTtl" value="3600"/>
-		<property name="defaultTimeOut" value="3000"/>
+		<property name="defaultTimeOut" value="0"/>
 		<property name="maxTreeSize" value="100"/>
 		<property name="defaultTreeSize" value="20"/>
 		<property name="configTtl" value="120"/>

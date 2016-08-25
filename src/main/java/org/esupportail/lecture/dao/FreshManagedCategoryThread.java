@@ -216,8 +216,8 @@ public class FreshManagedCategoryThread extends Thread {
 		String actualiteURL = profile.getUrlActualites();
 		SAXReader reader = new SAXReader();
 		try {
-			ret.setName("Category");
-			ret.setDescription("Category Profile");
+			ret.setName("Category-Publisher-"+profile.getId());
+			ret.setDescription("Publisher category n° "+profile.getId());
 			Hashtable<String, SourceProfile> sourceProfiles = new Hashtable<String, SourceProfile>();
 			Map<String, Integer> orderedSourceIDs = Collections.synchronizedMap(new HashMap<String, Integer>());
 			Document doc = reader.read(actualiteURL);
@@ -237,8 +237,15 @@ public class FreshManagedCategoryThread extends Thread {
 				sp.setFileId(sp.getName().trim()+sp.getUuid());
 				sp.setComplexItems(true);
 				sp.setItemXPath(node.valueOf("@itemXPath"));
-				LOG.error(" XPATH VALUE :: "+node.valueOf("@itemXPath"));
-				orderedSourceIDs.put(sp.getId(), xmlOrder);
+				if(sp.getHighlight()){
+					for(Map.Entry<String, Integer> entry  : orderedSourceIDs.entrySet()){
+						entry.setValue(entry.getValue() + 1);
+					}
+					orderedSourceIDs.put(sp.getId(), 1);
+					xmlOrder += 1;
+				}else{
+					orderedSourceIDs.put(sp.getId(), xmlOrder);
+				}
 				xmlOrder += 1;
 				sourceProfiles.put(sp.getId(), sp);
 				

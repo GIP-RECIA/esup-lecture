@@ -485,9 +485,6 @@ public class ChannelConfig  {
 						visibilitySets.setAutoSubscribed(loadDefAndContentSets("autoSubscribed", categoryProfile));
 						visibilitySets.setObliged(loadDefAndContentSets("obliged", categoryProfile));
 						mcp.setVisibility(visibilitySets);
-						// @TODO MCCM DISTINGUER LES CATEGORY PROFILES ICI PUIS TRAITER DIFFEREMMENT LES CATEGORY PAR TYPE
-						// ;'(
-						//@TODO
 						if(categoryProfile.valueOf("@urlCategory") != null && !"".equals(categoryProfile.valueOf("@urlCategory"))){
 							mcp.setCategoryURL(categoryProfile.valueOf("@urlCategory"));
 						}else if (!"".equals(categoryProfile.valueOf("@urlActualites"))){

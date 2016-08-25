@@ -13,9 +13,9 @@
 		<refCategoryProfile refId="InfosRegionales" />
 		<refCategoryProfile refId="InfosEtoile" /> 
 		<refCategoryProfile refId="catTestRightItems" />--> 
-	<categoryProfilesUrl url="http://tintin.giprecia.net/mockLastCategoryprofile.xml" timeout="" idPrefix="publisher" /> 
+	<categoryProfilesUrl url="http://tintin.giprecia.net/mockLastCategoryprofile.xml" timeout="300000" idPrefix="publisher" /> 
 	</context>
-	 <context name="test annonces region" id="InfosRegionales" treeVisible="forceno">
+	 <context name="test annonces region" id="InfosRegionales" treeVisible="forceNo">
 	         <description>Test annonces region</description>
         <refCategoryProfile refId="InfosRegionales" />
         </context>

@@ -38,13 +38,10 @@ public class ItemParser {
 
 	private void produceXMLStream() {
 		String stuff = "";
+		stuff += this.startTag();
 		if (!this.visibleItems.isEmpty()) {
-			stuff += this.startTag();
 			for (ComplexItem complexItem : visibleItems) {
-				LOG.error("IN PARSE ITEMS itemxpath : "+this.itemXpath);
-//				stuff += this.itemTag(true);
 				stuff += complexItem.getHtmlContent();
-//				stuff += this.itemTag(false);
 			}
 		}
 		stuff += this.endTag();
@@ -74,14 +71,6 @@ public class ItemParser {
 			}
 		}
 		return stuff; 
-	}
-	
-	private String itemTag(boolean start){
-		String [] arrayofPath = this.itemXpath.split("/");
-		if ( start){
-			return "<"+arrayofPath[arrayofPath.length -1]+">";
-		}
-		return "</"+arrayofPath[arrayofPath.length -1]+">";
 	}
 	
 	private String endTag(){
@@ -114,12 +103,9 @@ public class ItemParser {
 					visibilitySets.setObliged(XMLUtil.loadDefAndContentSets(visibilityNode));
 					sp.setVisibility(visibilitySets);
 				}
-				
 				sp.setHtmlContent(item.asXML());
-				
 				String xmlAsString = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";//<item>";
 				xmlAsString += sp.getHtmlContent();
-//				xmlAsString += "</item>";
 				byte[] hash = null;
 				try {
 					hash = MessageDigest.getInstance("MD5").digest(xmlAsString.getBytes());
@@ -168,7 +154,6 @@ public class ItemParser {
 							}
 						} 
 					}
-					
 					Node authorNode = item.selectSingleNode("creator");
 					Node authorNameNode = item.selectSingleNode("article/dc:creator");
 					Author auth = new Author(authorNode.getText(), authorNameNode.getText());

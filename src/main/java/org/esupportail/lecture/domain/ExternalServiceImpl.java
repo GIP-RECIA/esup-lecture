@@ -206,9 +206,12 @@ public class ExternalServiceImpl implements ExternalService, InitializingBean {
 	@Override
 	public int getNombreArticle() {
 		try {
+			if(getPreferences(DomainTools.getNombreArticle()).equalsIgnoreCase("default")){
+				return 0;
+			}
 			return Integer.valueOf(getPreferences(DomainTools.getNombreArticle()));
 		} catch (NumberFormatException e) {
-			LOG.error("MCCM External Service : NumberFormatException "+e.getMessage());
+			LOG.error("External Service : NumberFormatException "+e.getMessage());
 		} catch (NoExternalValueException e) {
 			LOG.error("External Service : NoExternalValueException "+e.getMessage());
 		} catch (InternalExternalException e) {

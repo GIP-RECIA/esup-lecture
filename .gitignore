@@ -9,6 +9,8 @@
 /nb-configuration.xml
 /src/main/webapp/app/nbproject/
 /src/main/webapp/META-INF/context.xml
+/src/main/resources/properties/esup-lecture.xml
+/src/main/resources/properties/mappings.xml
 .idea/
 esup-lecture.iml
 lectureDB.*

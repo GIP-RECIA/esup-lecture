@@ -11,9 +11,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -378,11 +379,11 @@ public abstract class Source implements Element, Serializable {
 						((ComplexItem) item).setRubriques(parser.getRubriquesItem().get(item.getId()));
 					}
 					try{
-					DateTimeFormatter df = DateTimeFormatter.RFC_1123_DATE_TIME;
-					OffsetDateTime odt = OffsetDateTime.parse(node.selectSingleNode("pubDate").getText(), df);
+					DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+					Date odt = df.parse(node.selectSingleNode("pubDate").getText());
 
 					item.setPubDate(Date.from(odt.toInstant()));
-					} catch (DateTimeParseException e){
+					} catch (Exception e){
 						String errorMsg = "Error parsing Date of the item ";
 						LOG.error(errorMsg, e);
 					}

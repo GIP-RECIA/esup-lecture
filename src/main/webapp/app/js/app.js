@@ -24,8 +24,37 @@ lecture = function(appName, appHomePath, resourceURL) {
 			}
 		};
 	});
+/*	project.directive('scroll', function($window){
+		return function (scope, element, attrs){
+			var lastScrollTop = 0;
+			angular.element($window).bind("scroll",function() {
+//				var isElementVisible = angular.element(
+//						document.querySelector("#mobileSelect")).is(':visible');
+//				if (isElementVisible == true) {
+					// var st = $(this).scrollTop();
+					var st = scope.currentYPosition();
+					scope.allcats.forEach(function(src) {
+						var pos = scope.elmYPosition(src.idHtml);
+						if (st > lastScrollTop && pos > 0 && st >= pos) {
+							scope.mySource = src;
+							scope.$apply();
+						} else if (st < lastScrollTop && pos > 0 && src != scope.mySource) {
+							var trgSrc = scope.getMinPos(st,src);
+							if (trgSrc != undefined && trgSrc != null) {
+								scope.mySource = trgSrc;
+								scope.$apply();
+							}
+						}
+					});
+					lastScrollTop = st;
+//				}
+			});
+		};
+	});*/
+
+
 	// Home Controller
-	project.controller('homeCtrl',function($scope, $http) {
+	project.controller('homeCtrl',function($scope, $http, $sce, $affix) {
 		var treeVisibleState;
 
 		// get context as JSON
@@ -62,7 +91,7 @@ lecture = function(appName, appHomePath, resourceURL) {
 
 			// All items showed by defaukt
 			$scope.selectedMode = 'readFirst';
-			// categories
+			// categories			 
 			$scope.cats = data.context.categories;
 			// context name
 			$scope.contextName = data.context.name;
@@ -70,84 +99,101 @@ lecture = function(appName, appHomePath, resourceURL) {
 			// default
 			// $scope.selectedCats =
 			// [$scope.cats[0]];
-			// Adaptation GIP RECIA
-			// Modification des categories
-			// selectionnées pour affichage par
-			// defaut
-			$scope.selectedCats = $scope.cats;
+			
 
 			// Adaptation GIP RECIA
 			// Recuperation de l'etat de
 			// l'authentificattion dans le scope
 			$scope.guestMode = data.guestMode;
 			// all sources selected by default
-			angular
-			.forEach(
-					$scope.cats,
-					function(cat, key) {
-						cat.selectedSrcs = cat.sources;
-					});
 			$scope.gererPlusieursCat = false;
 			if ($scope.cats.length > 1) {
 				$scope.gererPlusieursCat = true;
 			}
-			$scope.allcats = new Array();
+			$scope.numberUnread = 0;
+			var allcats0 = new Array();
 			var allUnread = 0; 
 			var tableauNLTrieParDate = new Array();
 			var tableauLuesTrieParDate = new Array();
 			angular.forEach($scope.cats,function(cat, key) {
-				cat.selectedSrcs = cat.sources;
 				var valIdCat = cat.id;
 				cat.idHtml = valIdCat.split(":").join("");
 				angular.forEach(cat.sources,function(src,key) {
 					var val = src.id;
 					src.idHtml = val.split(":").join("").split(" ").join("");
+					var colorBadge = $scope.colorText(src.color);
 					src.selectDesc = src.name
-					+ "<span ng-class=\"couleurRubrique("
-					+ src.color
-					+ ")\" class=\"badge\" style=\"background-color:"
-					+ src.color
-					+ "\" >"
+					+ "<span  class=\"badge\" style=\""+colorBadge+"\" >"
 					+ src.unreadItemsNumber
 					+ "</span>";
-					$scope.allcats.push(src);
+					src.selectDesc = $sce.trustAsHtml(src.selectDesc);
+					allcats0.push(src);
 				});
 				
 				angular.forEach(cat.sources,function(source,key) {
 					angular.forEach(source.items,function(item,key) {
 							item.DatePubl = new Date(item.pubDate);
-												if(!item.read){
-													// On augmente le total des annonces non lues 
-													allUnread ++;
-													// On ajoute l'element dans le tableau des non lues 
-													// Si il ne s(y trouve pas deja via une autre source(ou rubrique)
-													if (!$scope.containsElement(tableauNLTrieParDate, item)){
-														tableauNLTrieParDate.push(item);
-													}
-												}else{
-													if (!$scope.containsElement(tableauLuesTrieParDate, item)){
-														tableauLuesTrieParDate.push(item);
-													}
-												}
-												
-												
+								if(!item.read){
+								// On augmente le total des annonces non lues
+								// On ajoute l'element dans le tableau des non lues 
+								// Si il ne si il ne s'y trouve pas deja via une autre source(ou rubrique)
+									if (!$scope.containsElement(tableauNLTrieParDate, item)){
+										tableauNLTrieParDate.push(item);
+										allUnread ++;
+									}
+								}else{
+									if (!$scope.containsElement(tableauLuesTrieParDate, item)){
+										tableauLuesTrieParDate.push(item);
+										allUnread --; 
+									}
+								}
+						// Pour afficher les tags semantiques html5 (sinon angular considere qu'ils ne sont pas trustworthy) )
+						item.htmlContent = $sce.trustAsHtml(item.htmlContent);
                                                 angular.forEach(item.rubriques, function(rubrique, key){
                                                         var index, len;
                                                      // Creation des ancres pour les rubriques
                                                         for (index = 0, len = cat.sources.length; index<len; ++index){
+								console.log("RUBRIQUE :"+rubrique.nom);
                                                                 if(rubrique.nom == cat.sources[index].name){
                                                                         rubrique.idHtml = cat.sources[index].idHtml;
+									rubrique.srcId = cat.sources[index].id;
                                                                 }
                                                         }
                                                         
                                                 });
                                         });
 				});
+				cat.selectedSrcs = cat.sources;
 
 			});
+			$scope.numberUnread = allUnread;
+			var source0 = new Object();
+			source0.id = null;
+			source0.unreadItemsNumber = $scope.numberUnread;
+			source0.selectDesc = $scope.msgs['allNews'] +"<span class=\"badge pull-right\">"+source0.unreadItemsNumber+"</span>";
+			source0.name = $scope.msgs['allNews'];
+			source0.idHtml = "";
+			source0.isSelected = true;
+			$scope.allcats = new Array();
+			$scope.allcats.push(source0);
+			$scope.allcats = $scope.allcats.concat(allcats0);
 			$scope.mySource = $scope.allcats[0];
-			
-			$scope.isAccueil = data.context.viewDef; 
+			$scope.selectedCats = $scope.cats;
+			if ($scope.gererPlusieursCat){
+				var cat0 = new Object();
+				cat0.id = null;
+				cat0.unreadItemsNumber = $scope.numberUnread;
+				cat0.name = $scope.msgs['allNews'];
+				cat0.idHtml = "" ; 
+				cat0.sources = new Array();
+				cat0.isSelected = true;
+				$scope.cats.splice(0, 0, cat0);
+				
+				
+			}else{
+				$scope.selectedSources = $scope.allcats;
+			}
+			$scope.isAccueil = data.context.viewDef;
 			if ($scope.isAccueil){
 				 // Trie par date du tableau des non lues
 				tableauNLTrieParDate.sort(function(a,b){
@@ -167,11 +213,14 @@ lecture = function(appName, appHomePath, resourceURL) {
 					return 0;
 				
 				});
-				$scope.numberUnread = allUnread;
 				$scope.lienVue = data.context.lienVue;
 				// Si on a une rubrique a la une : 
-				if($scope.cats[0].sources[0].name.toUpperCase() == "A LA UNE"){
-					$scope.acceuilItems = $scope.cats[0].sources[0].items;
+				if($scope.cats[0].sources[0].highlight ==  true){
+					for (var k= 0; k< $scope.cats[0].sources.length; k++){
+						if($scope.cats[0].sources[k].highlight = true){
+							$scope.acceuilItems.push($scope.cats[0].sources[k].items)
+						}
+					}
 					var j = 0;
 					var i =0 ;
 					var len = $scope.acceuilItems.length;
@@ -201,11 +250,12 @@ lecture = function(appName, appHomePath, resourceURL) {
 						}// Si le tableau n'est tjrs pas complet on ne peut plus rien faire
 
 						
-					}else if (data.context.nombreArticle < $scope.cats[0].sources[0].length) { // Si on a trop d'elements dans la rubrique "A LA UNE"
-						for (var i = data.context.nombreArticle; i<$scope.cats[0].sources[0].length; i++){
-							$scope.acceuilItems.splice(i,1);
-						}
 					}
+//					else if (data.context.nombreArticle < $scope.cats[0].sources[0].length) { // Si on a trop d'elements dans la rubrique "A LA UNE"
+//						for (var i = data.context.nombreArticle; i<$scope.cats[0].sources[0].length; i++){
+//							$scope.acceuilItems.splice(i,1);
+//						}
+//					}
 				} else{ // Si on a pas de rubrique a la une 
 					var i;
 					 $scope.acceuilItems = new Array();
@@ -243,8 +293,8 @@ lecture = function(appName, appHomePath, resourceURL) {
 		});
 
 		$scope.isSelectFocused = false;
-		$scope.sourceChanged = function(value) {
-			$scope.doScrollTo(value);
+		$scope.sourceChanged = function(catID, srcID) {
+			$scope.select(catID, srcID);
 		}
 		$scope.selectFocused = function(value) {
 			var body = angular.element(document
@@ -256,51 +306,24 @@ lecture = function(appName, appHomePath, resourceURL) {
 		$scope.selectBlured = function(value) {
 			var bodyHider = angular.element(document
 					.querySelector('.hideBody'));
-			bodyHider.removeClass('hideBody');
+			//bodyHider.removeClass('hideBody');
 			var body = angular.element(document
 					.querySelector('body'));
+			bodyHider.remove();
 			body.removeClass("noScroll");
 		}
 
 		$scope.containsElement = function(theArray, element) {
-				var i;
-				for (i=0; i<theArray.length; i++){
-					if (theArray[i].id == element.id){
-						return true;
-					}
+			var i;
+			for (i=0; i<theArray.length; i++){
+				if (theArray[i].id == element.id){
+					return true;
 				}
-				return false;
+			}
+			return false;
 		}
 
-		var lastScrollTop = 0;
-		angular.element($(window)).bind("scroll",function() {
-			var isElementVisible = angular.element(
-					document.querySelector("#mobileSelect")).is(':visible');
-			if (isElementVisible == true) {
-				// var st = $(this).scrollTop();
-				var st = $scope.currentYPosition();
-				$scope.allcats.forEach(function(src) {
-					var pos = $scope.elmYPosition(src.idHtml);
-					if (st > lastScrollTop
-							&& pos > 0
-							&& st >= pos) {
-						$scope.mySource = src;
-						$scope.$apply();
-					} else if (st < lastScrollTop
-							&& pos > 0
-							&& src != $scope.mySource) {
-						var trgSrc = $scope.getMinPos(st,src);
-						if (trgSrc != undefined
-								&& trgSrc != null) {
-							$scope.mySource = trgSrc;
-							$scope.$apply();
-						}
-					}
-
-				});
-				lastScrollTop = st;
-			}
-		});
+		
 		$scope.getMinPos = function(curPos, src) {
 			var pos = $scope.elmYPosition(src.idHtml);
 			var posMysource = $scope.elmYPosition($scope.mySource.idHtml);
@@ -309,50 +332,132 @@ lecture = function(appName, appHomePath, resourceURL) {
 			}
 			return null;
 		}
-		$scope.couleurRubrique = function(value) {
-			return {
-				"background-color" : value.color + "!important"
-			};
-		};
 
 		// select a category and eventually a source to restrict
 		// displayed content
-		$scope.select = function(catID, srcID) {
-			angular.forEach($scope.cats, function(cat, key) {
-				if (cat.id === catID) {
-					cat.isSelected = true;
-					$scope.selectedCats = [ cat ];
-					if (srcID) {
-						angular.forEach(cat.sources, function(
-								src, key) {
-							if (src.id === srcID) {
-								src.isSelected = true;
-								cat.selectedSrcs = [ src ];
-							} else {
-								// Patch pour deselectionner une
-								// source : utile pour ne pas
-								// afficher les sources vides
-								// dans la liste des actualités
-								// corrige l'etat de la
-								// selection
-								src.isSelected = false;
-							}
-						});
-					} else {
-						cat.selectedSrcs = cat.sources;
-						// Patch pour deselectionner toutes les
-						// sources selectionnées corrige l'etat
-						// de la selection
-						angular.forEach(cat.sources, function(
-								src, key) {
-							src.isSelected = false;
-						});
-					}
-				} else {
-					cat.isSelected = false;
-				}
+		 $scope.select = function(catID, srcID) {
+             if (catID!==undefined && catID !== null){
+                     angular.forEach($scope.cats, function(cat, key) {
+                             if (cat.id === catID) {
+                                     cat.isSelected = true;
+                                     $scope.selectedCats = [ cat ];
+                                     if (srcID) {
+                                             angular.forEach(cat.sources, function(
+                                                             src, key) {
+                                                     if (src.id === srcID) {
+                                                             src.isSelected = true;
+							     cat.selectedSrcs = new Array();
+							       try {
+                                					 $scope.$apply();
+                       						 }catch (e){
+                                 					console.log("error "+e);
+                      						}finally{
+                            					 $scope.$digest();
+                       						 }
+
+                                                             cat.selectedSrcs = [ src ];
+							     $scope.mySource = src;
+                                                     } else {
+                                                     // Patch pour deselectionner une
+                                                     // source : utile pour ne pas
+                                                     // afficher les sources vides
+                                                     // dans la liste des actualités
+                                                     // corrige l'etat de la
+                                                     // selection
+                                                             src.isSelected = false;
+                                                     }
+                                             });
+                                     } else {
+					     cat.selectedSrcs = new Array();
+						try {
+                                                      $scope.$apply();
+                                                }catch (e){
+                                                      console.log("error "+e);
+                                                }finally{
+                                                      $scope.$digest();
+                                                }
+                                             cat.selectedSrcs = cat.sources;
+                                     // Patch pour deselectionner toutes les
+                                     // sources selectionnées corrige l'etat
+                                     // de la selection
+                                             angular.forEach(cat.sources, function(
+                                                             src, key) {
+                                                     src.isSelected = false;
+                                             });
+                                     }
+                             } else {
+                                     cat.isSelected = false;
+					angular.forEach(cat.sources, function(
+                                                             src, key) {
+                                                     src.isSelected = false;
+                                             });
+
+                             }
+                     });
+             }else if(srcID !== undefined && srcID !== null ) {
+                     angular.forEach($scope.allcats, function(src, key){
+                             if (src.id === srcID){
+                            	 src.isSelected = true;
+                            	  $scope.selectedSources = new Array();
+                                 try {
+                                        $scope.$apply();
+                                 }catch (e){
+                                        console.log("error "+e);
+                                 }finally{
+                                        $scope.$digest();
+                                  }
+                                 $scope.selectedSources = [src];
+				 $scope.mySource = src;       
+                             }else{
+				src.isSelected = false ;
+			}
+				
+                     });
+             }else{
+		if(!$scope.gererPlusieursCat){
+			// Obligé d'essayer de forcer le rafraichissment du scope meme si cela peut parfois generer des erreurs javascript
+			// Ceci est fait pour le recalcul des elements affiché pour que affix et scrollspy fonctionnent correctement 
+			// :(
+            	 	$scope.selectedSources = new Array();
+               		 try {
+                        	 $scope.$apply();
+                 	}catch (e){
+                        	 console.log("error "+e);
+                 	}finally{
+                    	     $scope.$digest();
+                	}
+                 	$scope.selectedSources = $scope.allcats;
+                 	$scope.doScrollTo(0);
+			angular.forEach($scope.allcats, function(src, key){
+				src.isSelected = false;
+				});
+			 $scope.allcats[0].isSelected = true;
+			 $scope.mySource = $scope.allcats[0];
+        	     }else{	
+			angular.forEach($scope.cats, function(cat,key ){
+				cat.isSelected = false;
+				angular.forEach(cat.sources, function(src, key){
+					src.isSelected = false;
+					});
+				});
+			$scope.cats[0].isSelected = true ;
+			$scope.selectedCats = new Array();
+			$scope.mySource = $scope.allcats[0];
+			try{
+				$scope.$apply();
+			}catch(e){
+				console.log(e);
+			}finally{
+				$scope.$digest();
+			}
+			$scope.selectedCats = $scope.cats;
+			angular.forEach($scope.cats, function(cat, key){
+				cat.selectedSrcs = cat.sources;
 			});
-		};
+				$scope.doScrollTo(0);	
+			}
+		}
+     };
 
 		// fold | unfold a category
 		$scope.toggle = function(catID) {
@@ -392,8 +497,7 @@ lecture = function(appName, appHomePath, resourceURL) {
 						var color = source.color;
 						angular.forEach(source.items, function(
 								item, key) {
-							if (!$scope
-									.isItemEmpty(item, color)) {
+							if (!$scope.isItemEmpty(item, color)) {
 								testResult = false;
 							}
 						});
@@ -458,15 +562,21 @@ lecture = function(appName, appHomePath, resourceURL) {
 					})
 					.success(
 							function(data) {
+								item.read ? $scope.allcats[0].unreadItemsNumber++ : $scope.allcats[0].unreadItemsNumber--;
+								item.read ? $scope.cats[0].unreadItemsNumber++ : $scope.cats[0].unreadItemsNumber--;
 								angular.forEach($scope.cats,function(category,key) {
 									angular.forEach(category.sources,function(source,key) {
 										angular.forEach(source.items,function(itm) {
 											if (itm.id == item.id) {
-												(itm.read ? source.unreadItemsNumber++
-														: source.unreadItemsNumber--);
+												 if(itm.read){
+                                                     source.unreadItemsNumber++;
+                                                     $scope.numberUnread++
+                                                     }else{
+                                                     $scope.numberUnread --;
+                                                     source.unreadItemsNumber--;
+                                                     }
 												itm.read = !itm.read;
 											}
-
 										});
 									});
 
@@ -615,8 +725,38 @@ lecture = function(appName, appHomePath, resourceURL) {
 
 			return 0;
 		};
+		
+		$scope.colorText = function colorText(color) {
+			if(color ===  null || color === undefined){
+				return "";
+			}
+			var toRGB = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+			var colorRGB = new Array();
+			colorRGB[0] = parseInt(toRGB[1], 16);
+			colorRGB[1] = parseInt(toRGB[2], 16);
+			colorRGB[2] = parseInt(toRGB[3], 16);
+                 var o = Math.round(((parseInt(colorRGB[0]) * 299) + (parseInt(colorRGB[1]) * 587) + (parseInt(colorRGB[2]) * 114)) / 1000);
+                 if (o > 125) {
+                     return "background-color :"+ color+";color : black;";
+
+                 } else {
+                     return "background-color :"+ color+";color : white ;";
+                 }
+
+		};
+		
+		 $scope.setFilterMode = function(readFilter){
+             if (readFilter){
+                     $scope.selectedMode =  'notRead';
+             }else {
+                     $scope.selectedMode =  "unreadFirst";
+             }
+		 };
+
 
 	});
+	
+	
 
 	// Mode Filter
 	project.filter('modeFilter',function() {
@@ -641,22 +781,22 @@ lecture = function(appName, appHomePath, resourceURL) {
 				;
 			});
 
-			angular.forEach(input,function(item, key) {
-				if (!item.read
-						&& selectedMode === "readFirst") {
-					ret.splice(i - 1, 1);
-					i--;
-				}
-				;
-			});
-
-			angular.forEach(input,function(item, key) {
-				if (!item.read
-						&& selectedMode === "readFirst") {
-					ret.push(item);
-				}
-				;
-			});
+//			angular.forEach(input,function(item, key) {
+//				if (!item.read
+//						&& selectedMode === "readFirst") {
+//					ret.splice(i - 1, 1);
+//					i--;
+//				}
+//				;
+//			});
+//
+//			angular.forEach(input,function(item, key) {
+//				if (!item.read
+//						&& selectedMode === "readFirst") {
+//					ret.push(item);
+//				}
+//				;
+//			});
 
 			return ret;
 		};

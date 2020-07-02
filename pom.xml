@@ -535,7 +535,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javax.servlet.version>2.5</javax.servlet.version>
-        <esupcommons.version>0.3.3</esupcommons.version>
+        <esupcommons.version>0.3.6</esupcommons.version>
         <config.url.prefix>file://${project.build.outputDirectory}/properties</config.url.prefix>
         <uportal-libs.version>5.1.0</uportal-libs.version>
     </properties>

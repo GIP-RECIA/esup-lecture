@@ -333,7 +333,7 @@
             <dependency>
                 <groupId>org.jasig.resourceserver</groupId>
                 <artifactId>resource-server-utils</artifactId>
-                <version>1.0.44</version>
+                <version>1.5.0</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>slf4j-api</artifactId>

@@ -252,7 +252,7 @@
             <dependency>
                 <groupId>jaxen</groupId>
                 <artifactId>jaxen</artifactId>
-                <version>1.1.1</version>
+                <version>1.2.0</version>
             </dependency>
             <!-- overwrite xom 1.0 from jaxen to avoid icu4j used. icu4j is not compatible
                 with jetty -->
